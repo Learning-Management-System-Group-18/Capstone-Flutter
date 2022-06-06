@@ -1,9 +1,33 @@
 import 'package:capstone_flutter/widgets/space.dart';
 import 'package:capstone_flutter/widgets/text.dart';
+import 'package:capstone_flutter/widgets/transition.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class Profilepage extends StatelessWidget {
+import '../loginscreen.dart';
+
+class Profilepage extends StatefulWidget {
   const Profilepage({Key? key}) : super(key: key);
+
+  @override
+  State<Profilepage> createState() => _ProfilepageState();
+}
+
+class _ProfilepageState extends State<Profilepage> {
+  logOut() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      preferences.remove("is_login");
+      preferences.remove("email");
+    });
+    Navigator.pushAndRemoveUntil(
+      context,
+      TransisiHalaman(
+          tipe: PageTransitionType.rightToLeftWithFade, page: Loginscreen()),
+      (route) => false,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +138,29 @@ class Profilepage extends StatelessWidget {
                   ),
                   spaceHeight(50),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          content: const Text('Yakin ingin keluar?'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text('Batal'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                logOut();
+                                Navigator.pop(context);
+                              },
+                              child: const Text('Keluar'),
+                            )
+                          ],
+                        ),
+                      );
+                    },
                     child: UrbanistText().blackBold("Sign Out", 18),
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
