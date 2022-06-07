@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class UrbanistText {
-  Widget blackBold(
+  Text blackBold(
     String text,
     double size,
   ) {
@@ -14,7 +14,7 @@ class UrbanistText {
     );
   }
 
-  Widget blackNormal(
+  Text blackNormal(
     String text,
     double size,
   ) {
@@ -24,7 +24,7 @@ class UrbanistText {
     );
   }
 
-  Widget whiteNormal(
+  Text whiteNormal(
     String text,
     double size,
   ) {
@@ -34,7 +34,7 @@ class UrbanistText {
     );
   }
 
-  Widget whiteBold(
+  Text whiteBold(
     String text,
     double size,
   ) {
@@ -45,7 +45,7 @@ class UrbanistText {
     );
   }
 
-  Widget primaryBold(
+  Text primaryBold(
     String text,
     double size,
   ) {
@@ -54,6 +54,19 @@ class UrbanistText {
       style: GoogleFonts.urbanist(
           fontSize: size,
           fontWeight: FontWeight.bold,
+          color: RepoColor().color1),
+    );
+  }
+
+  Text primaryNormal(
+    String text,
+    double size,
+  ) {
+    return Text(
+      text,
+      style: GoogleFonts.urbanist(
+          fontSize: size,
+          fontWeight: FontWeight.normal,
           color: RepoColor().color1),
     );
   }

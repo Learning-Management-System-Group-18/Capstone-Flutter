@@ -18,7 +18,7 @@ class _DetailCoursePageState extends State<DetailCoursePage> {
   bool _snap = false;
   bool _floating = false;
 
-  var lesson = [
+  List lesson = [
     {
       'section': 'Section 1 - Introduction',
       'lesson': [
@@ -30,6 +30,24 @@ class _DetailCoursePageState extends State<DetailCoursePage> {
     },
     {
       'section': 'Section 2 - Flutter Introduction',
+      'lesson': [
+        ['01', 'Video', 'url'],
+        ['02', 'Slide', 'url'],
+        ['03', 'Latihan', 'url'],
+        ['04', 'Quiz', 'url'],
+      ]
+    },
+    {
+      'section': 'Section 3 - Introduction',
+      'lesson': [
+        ['01', 'Video', 'url'],
+        ['02', 'Slide', 'url'],
+        ['03', 'Latihan', 'url'],
+        ['04', 'Quiz', 'url'],
+      ]
+    },
+    {
+      'section': 'Section 4 - Flutter Introduction',
       'lesson': [
         ['01', 'Video', 'url'],
         ['02', 'Slide', 'url'],
@@ -67,6 +85,7 @@ class _DetailCoursePageState extends State<DetailCoursePage> {
           ),
           SliverToBoxAdapter(
             child: Container(
+              color: Colors.white,
               padding: const EdgeInsets.all(20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -136,12 +155,12 @@ class _DetailCoursePageState extends State<DetailCoursePage> {
       bottomNavigationBar: Container(
         height: 100,
         padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(30),
-            topRight: Radius.circular(30),
-          ),
-        ),
+        decoration: const BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
+            ),
+            color: Colors.white),
         child: ElevatedButton(
           onPressed: () {},
           child: UrbanistText().whiteBold("Enroll Courses", 16),
@@ -196,15 +215,16 @@ Widget _tabSection(BuildContext context, List lesson) {
               ]),
         ),
         Container(
+          color: Colors.white,
           height: 358,
-          child: TabBarView(children: [
-            ItemAboutTabBar(),
-            ItemLessonsTabBar(lesson: lesson),
-            Container(
-              height: 200,
-              child: Text("User Body"),
-            ),
-          ]),
+          child: TabBarView(
+            physics: NeverScrollableScrollPhysics(),
+            children: [
+              ItemAboutTabBar(),
+              ItemLessonsTabBar(lesson: lesson),
+              ItemReviewTabBar(),
+            ],
+          ),
         ),
       ],
     ),

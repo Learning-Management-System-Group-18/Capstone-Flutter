@@ -40,6 +40,11 @@ class RepoIcon {
   final Image play =
       const Image(image: Svg('assets/icon/PlayCircle.svg', size: Size(25, 25)));
 
+  final Image primaryPlay = const Image(
+    image: Svg('assets/icon/PlayCircle.svg', size: Size(25, 25)),
+    color: Color.fromRGBO(51, 94, 247, 3),
+  );
+
   final Image arrowCircle = const Image(
     image: Svg('assets/icon/ArrowCircleLeft.svg', size: Size(26, 26)),
     color: Color.fromRGBO(51, 94, 247, 3),
