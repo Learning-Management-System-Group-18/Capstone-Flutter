@@ -40,6 +40,13 @@ dependencies:
   motion_tab_bar_v2: ^0.2.6
   flutter_svg_provider: ^1.0.3
   fade_scroll_app_bar: ^0.0.7
+  email_validator: ^2.0.1
+  shared_preferences: ^2.0.13
+  page_transition: ^2.0.5
+  cool_alert: ^1.1.0
+  progresso: ^0.3.0
+  percentify: ^1.0.3
+
   
 dev_dependencies:
   flutter_test:
@@ -79,11 +86,11 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
+  fonts:
+    - family: Urbanist
+      fonts:
+        - asset: assets/font/Urbanist-Regular.ttf
+        - asset: assets/font/Urbanist-Bold.ttf
   #         style: italic
   #   - family: Trajan Pro
   #     fonts:

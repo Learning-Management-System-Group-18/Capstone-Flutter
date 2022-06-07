@@ -1,4 +1,4 @@
-import 'package:capstone_flutter/constants/colors.dart';
+// import 'package:capstone_flutter/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 
@@ -39,6 +39,11 @@ class RepoIcon {
 
   final Image play =
       const Image(image: Svg('assets/icon/PlayCircle.svg', size: Size(25, 25)));
+
+  final Image primaryPlay = const Image(
+    image: Svg('assets/icon/PlayCircle.svg', size: Size(25, 25)),
+    color: Color.fromRGBO(51, 94, 247, 3),
+  );
 
   final Image arrowCircle = const Image(
     image: Svg('assets/icon/ArrowCircleLeft.svg', size: Size(26, 26)),
