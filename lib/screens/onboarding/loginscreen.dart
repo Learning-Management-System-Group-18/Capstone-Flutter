@@ -1,5 +1,6 @@
-import 'package:capstone_flutter/constants/icon.dart';
-import 'package:capstone_flutter/controllers/AuthController.dart';
+import 'package:capstone_flutter/constants/colors.dart';
+import 'package:capstone_flutter/screens/onboarding/registerscreen.dart';
+import 'package:capstone_flutter/widgets/navigator.dart';
 import 'package:capstone_flutter/widgets/space.dart';
 import 'package:capstone_flutter/widgets/text.dart';
 import 'package:flutter/material.dart';
@@ -7,20 +8,27 @@ import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import '../constants/colors.dart';
+import '../../constants/icon.dart';
+import '../../controllers/AuthController.dart';
 
-class Registerscreen extends StatefulWidget {
-  const Registerscreen({Key? key}) : super(key: key);
+class Loginscreen extends StatefulWidget {
+  const Loginscreen({Key? key}) : super(key: key);
 
   @override
-  State<Registerscreen> createState() => _RegisterscreenState();
+  State<Loginscreen> createState() => _LoginscreenState();
 }
 
-class _RegisterscreenState extends State<Registerscreen> {
+class _LoginscreenState extends State<Loginscreen> {
   bool? passwordVisible;
+
+  late TextEditingController emailController;
+  late TextEditingController passwordController;
+
   @override
   void initState() {
     super.initState();
+    emailController = TextEditingController();
+    passwordController = TextEditingController();
     passwordVisible = false;
   }
 
@@ -61,29 +69,12 @@ class _RegisterscreenState extends State<Registerscreen> {
                     ),
                   ),
                   spaceHeight(10),
-                  UrbanistText().blackBold('Create your Account', 30),
+                  UrbanistText().blackBold("Login to your Account", 30),
                   spaceHeight(38),
-                  TextFormField(
-                    key: Key('username'),
-                    style: UrbanistText().styleText(16),
-                    decoration: InputDecoration(
-                      prefixIcon: RepoIcon().user2,
-                      hintStyle: GoogleFonts.urbanist(fontSize: 16),
-                      hintText: "Username",
-                      fillColor: RepoColor().color3,
-                      filled: true,
-                      isDense: true,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none),
-                    ),
-                    validator: (username) =>
-                        authController.isUsernameValid(username!),
-                  ),
-                  spaceHeight(10),
                   TextFormField(
                     key: Key('email'),
                     style: UrbanistText().styleText(16),
+                    controller: emailController,
                     decoration: InputDecoration(
                       prefixIcon: RepoIcon().email1,
                       hintStyle: GoogleFonts.urbanist(fontSize: 16),
@@ -95,15 +86,17 @@ class _RegisterscreenState extends State<Registerscreen> {
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide.none),
                     ),
-                    validator: (email) => authController.isEmailValid(email!),
                   ),
-                  spaceHeight(10),
+                  const SizedBox(
+                    height: 24,
+                  ),
                   TextFormField(
                     key: Key('password'),
                     style: UrbanistText().styleText(16),
                     obscureText: !passwordVisible!,
                     enableSuggestions: false,
                     autocorrect: false,
+                    controller: passwordController,
                     decoration: InputDecoration(
                       prefixIcon: RepoIcon().lock,
                       hintStyle: GoogleFonts.urbanist(fontSize: 16),
@@ -127,17 +120,32 @@ class _RegisterscreenState extends State<Registerscreen> {
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide.none),
                     ),
-                    validator: (password) =>
-                        authController.isPasswordValid(password!),
                   ),
-                  spaceHeight(30),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        'Forgot the password?',
+                        textAlign: TextAlign.right,
+                        style: GoogleFonts.urbanist(
+                          fontSize: 14,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 40,
+                  ),
                   ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        authController.isvalid(context);
+                        authController.cekLogin(context, emailController.text,
+                            passwordController.text);
                       }
                     },
-                    child: UrbanistText().whiteBold('Sign Up', 16),
+                    child: UrbanistText().whiteBold("Sign In", 16),
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
                       primary: RepoColor().color1,
@@ -153,18 +161,15 @@ class _RegisterscreenState extends State<Registerscreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        "Already have an account?",
-                        style: GoogleFonts.urbanist(
-                          fontSize: 16,
-                          color: Colors.black,
-                        ),
-                      ),
+                      UrbanistText().blackNormal("Don't have an Account?", 16),
                       TextButton(
                         onPressed: () {
-                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Registerscreen()));
                         },
-                        child: UrbanistText().primaryBold('Sign In', 16),
+                        child: UrbanistText().primaryBold('Sign Up', 16),
                       ),
                     ],
                   )

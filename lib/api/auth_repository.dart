@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:capstone_flutter/api/response/response_login.dart';
 import 'package:capstone_flutter/api/service.dart';
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthRepository {
   final ApiService apiService = ApiService();
@@ -38,4 +39,8 @@ class AuthRepository {
     }
     return responselogin;
   }
+
+  // final pref = await SharedPreferences.getInstance();
+  //     final token = pref.getString('token');
+
 }

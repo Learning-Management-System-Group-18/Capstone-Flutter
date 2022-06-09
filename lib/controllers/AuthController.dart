@@ -21,11 +21,15 @@ class AuthController extends ChangeNotifier {
     if (name.isEmpty) {
       return 'Username cannot be empty!';
     }
-    if (name.length >= 3) {
+    if (name.length >= 3 || name.length <= 30) {
       _nama = name;
       return null;
-    } else {
-      return 'Username min 3 characters!';
+    }else if (name.length < 3) {
+        return 'Username min 3 characters!';
+    }else if(name.length > 30){
+        return 'Username max 30 characters!';
+    }else{
+        return 'Username min 3 characters!';
     }
   }
 
@@ -44,11 +48,13 @@ class AuthController extends ChangeNotifier {
     if (password.isEmpty) {
       return 'Password cannot be empty!';
     }
-    if (password.length >= 8) {
+    if (password.length >= 8 || password.length <=16) {
       _password = password;
       return null;
-    } else {
-      return 'Password min 8 characters! (${password.length}/8)';
+    } else if(password.length < 8 ) {
+      return 'Password min 8 characters! (${password.length}/16)';
+    }else if(password.length > 16){
+      return 'Password max 16 characters! (${password.length}/16)';
     }
   }
 

@@ -7,8 +7,8 @@ import '../../widgets/item_listview.dart';
 import '../../widgets/space.dart';
 import '../../widgets/text.dart';
 
-class CourseCompleted extends StatelessWidget {
-  const CourseCompleted({Key? key}) : super(key: key);
+class CourseCompletedPage extends StatelessWidget {
+  const CourseCompletedPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

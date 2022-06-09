@@ -49,4 +49,24 @@ class RepoIcon {
     image: Svg('assets/icon/ArrowCircleLeft.svg', size: Size(26, 26)),
     color: Color.fromRGBO(51, 94, 247, 3),
   );
+
+  final Image whitearrowCircle = const Image(
+    image: Svg('assets/icon/ArrowCircleLeft.svg', size: Size(26, 26)),
+    color: Colors.white,
+  );
+
+  final Image goTo = const Image(
+    image: Svg('assets/icon/Goto.svg', size: Size(20, 20)),
+    color: Color.fromRGBO(51, 94, 247, 3),
+  );
+
+  final Image search = const Image(
+    image: Svg('assets/icon/MagnifyingGlass.svg', size: Size(26, 26)),
+    color: Color.fromRGBO(51, 94, 247, 3),
+  );
+
+  final Image whiteSearch = const Image(
+    image: Svg('assets/icon/MagnifyingGlass.svg', size: Size(26, 26)),
+    color: Colors.white,
+  );
 }

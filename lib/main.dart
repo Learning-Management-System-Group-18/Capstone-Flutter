@@ -1,12 +1,12 @@
-import 'package:capstone_flutter/screens/loginscreen.dart';
-import 'package:capstone_flutter/screens/registerscreen.dart';
+import 'package:capstone_flutter/screens/onboarding/loginscreen.dart';
+import 'package:capstone_flutter/screens/onboarding/registerscreen.dart';
+import 'package:capstone_flutter/screens/onboarding/splashscreen.dart';
 import 'package:capstone_flutter/widgets/navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'controllers/AuthController.dart';
-import 'screens/splashscreen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
