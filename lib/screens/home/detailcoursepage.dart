@@ -1,5 +1,6 @@
 import 'package:capstone_flutter/constants/colors.dart';
 import 'package:capstone_flutter/constants/icon.dart';
+import 'package:capstone_flutter/widgets/alert.dart';
 import 'package:capstone_flutter/widgets/space.dart';
 import 'package:capstone_flutter/widgets/text.dart';
 import 'package:flutter/material.dart';
@@ -162,7 +163,9 @@ class _DetailCoursePageState extends State<DetailCoursePage> {
             ),
             color: Colors.white),
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            EnrollSucces(context, 'You have successfully enrolled the course');
+          },
           child: UrbanistText().whiteBold("Enroll Courses", 16),
           style: ElevatedButton.styleFrom(
             elevation: 10,

@@ -1,19 +1,50 @@
 import 'package:capstone_flutter/constants/colors.dart';
+import 'package:capstone_flutter/screens/home/all_categories_page.dart';
+import 'package:capstone_flutter/screens/home/all_course_page.dart';
 import 'package:capstone_flutter/widgets/item_listview.dart';
 import 'package:capstone_flutter/widgets/space.dart';
-import 'package:fade_scroll_app_bar/fade_scroll_app_bar.dart';
+import 'package:capstone_flutter/widgets/transition.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 
 import '../../widgets/text.dart';
 
-class Homepage extends StatelessWidget {
+class Homepage extends StatefulWidget {
   const Homepage({Key? key}) : super(key: key);
+
+  @override
+  State<Homepage> createState() => _HomepageState();
+}
+
+class _HomepageState extends State<Homepage> {
+  bool _searchBoolean = false;
+  List<int> _searchIndexList = [];
+
+  List<String> _list = [
+    'English Textbook',
+    'Japanese Textbook',
+    'English Vocabulary',
+    'Japanese Vocabulary'
+  ];
+
+  Widget _searchListView() {
+    return Container(
+      height: 300,
+      child: ListView.builder(
+        padding: EdgeInsets.zero,
+        shrinkWrap: true,
+        itemCount: _searchIndexList.length,
+        itemBuilder: (context, index) {
+          index = _searchIndexList[index];
+          return Card(child: ListTile(title: Text(_list[index])));
+        },
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final List kategori = [
-      "All",
       "Category 1",
       "Category 2",
       "Category 3",
@@ -22,189 +53,147 @@ class Homepage extends StatelessWidget {
       "Category 6",
     ];
 
-    //   return Scaffold(
-    //     body: SingleChildScrollView(
-    //       child: Column(
-    //         children: [
-    //           Container(
-    //             height: 204,
-    //             width: double.infinity,
-    //             decoration: const BoxDecoration(
-    //               color: Colors.blue,
-    //               borderRadius: BorderRadius.only(
-    //                 bottomLeft: Radius.circular(30),
-    //                 bottomRight: Radius.circular(30),
-    //               ),
-    //             ),
-    //             padding: const EdgeInsets.only(left: 15, right: 15, top: 20),
-    //             child: SafeArea(
-    //               child: Column(
-    //                 crossAxisAlignment: CrossAxisAlignment.start,
-    //                 children: [
-    //                   Row(
-    //                     children: [
-    //                       const CircleAvatar(
-    //                         backgroundImage: NetworkImage(
-    //                             'https://i.pinimg.com/originals/d3/f9/13/d3f913b8dd27fac04b26c2c9a903610d.png'),
-    //                         radius: 35,
-    //                       ),
-    //                       const SizedBox(
-    //                         width: 12,
-    //                       ),
-    //                       Column(
-    //                         mainAxisAlignment: MainAxisAlignment.center,
-    //                         crossAxisAlignment: CrossAxisAlignment.start,
-    //                         children: const [
-    //                           Text(
-    //                             'Hi, Nirmala Azalea',
-    //                             style: TextStyle(
-    //                               fontSize: 18,
-    //                               fontWeight: FontWeight.bold,
-    //                               color: Colors.white,
-    //                             ),
-    //                           ),
-    //                           Text(
-    //                             "Let's start learning!",
-    //                             style: TextStyle(
-    //                               fontSize: 14,
-    //                               color: Colors.white,
-    //                             ),
-    //                           ),
-    //                         ],
-    //                       ),
-    //                     ],
-    //                   ),
-    //                   const SizedBox(
-    //                     height: 15,
-    //                   ),
-    //                   SizedBox(
-    //                     child: TextFormField(
-    //                       key: Key('search'),
-    //                       decoration: InputDecoration(
-    //                         prefixIcon: const Icon(Icons.search_rounded),
-    //                         hintStyle: UrbanistText().styleText(16),
-    //                         hintText: "Search",
-    //                         fillColor: Colors.blue[200],
-    //                         contentPadding:
-    //                             const EdgeInsets.symmetric(vertical: 1),
-    //                         filled: true,
-    //                         border: OutlineInputBorder(
-    //                             borderRadius: BorderRadius.circular(20),
-    //                             borderSide: BorderSide.none),
-    //                       ),
-    //                     ),
-    //                   ),
-    //                 ],
-    //               ),
-    //             ),
-    //           ),
-    //           Container(
-    //             padding: const EdgeInsets.all(15),
-    //             child: Column(
-    //               crossAxisAlignment: CrossAxisAlignment.start,
-    //               children: [
-    //                 TopMentor(kategori: kategori),
-    //                 spaceHeight(10),
-    //                 PopularCourses(kategori: kategori),
-    //                 spaceHeight(10),
-    //                 Categories(kategori: kategori),
-    //               ],
-    //             ),
-    //           ),
-    //         ],
-    //       ),
-    //     ),
-    //   );
-    // }
-    final ScrollController _scrollController = ScrollController();
-    return FadeScrollAppBar(
-      scrollController: _scrollController,
-      appBarTitle: UrbanistText().whiteBold('Kursus-in', 20),
-      pinned: true,
-      fadeOffset: 100,
-      expandedHeight: 210,
-      backgroundColor: RepoColor().color1,
-      fadeWidget: Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                const CircleAvatar(
-                  backgroundImage: NetworkImage(
-                      'https://i.pinimg.com/originals/d3/f9/13/d3f913b8dd27fac04b26c2c9a903610d.png'),
-                  radius: 35,
-                ),
-                const SizedBox(
-                  width: 12,
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
-                      'Hi, Nirmala Azalea',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            floating: false,
+            pinned: true,
+            snap: false,
+            backgroundColor: RepoColor().color5,
+            expandedHeight: 200,
+            centerTitle: false,
+            title: UrbanistText().whiteBold('Kursus-in', 20),
+            flexibleSpace: FlexibleSpaceBar(
+              background: Container(
+                padding: const EdgeInsets.all(20),
+                child: Row(
+                  children: [
+                    const CircleAvatar(
+                      backgroundImage: AssetImage('assets/images/profile.png'),
+                      radius: 35,
                     ),
-                    Text(
-                      "Let's start learning!",
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.white,
-                      ),
+                    const SizedBox(
+                      width: 12,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        Text(
+                          'Hi, Nirmala Azalea',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Text(
+                          "Let's start learning!",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
+              ),
             ),
-          ],
-        ),
-      ),
-      bottomWidgetHeight: 40,
-      bottomWidget: Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20, bottom: 15),
-        child: TextFormField(
-          key: Key('search'),
-          decoration: InputDecoration(
-            prefixIcon: const Icon(Icons.search_rounded),
-            hintStyle: UrbanistText().styleText(16),
-            hintText: "Search",
-            fillColor: Colors.blue[200],
-            contentPadding: const EdgeInsets.symmetric(vertical: 1),
-            filled: true,
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-                borderSide: BorderSide.none),
+            bottom: AppBar(
+              toolbarHeight: 70,
+              elevation: 0.0,
+              backgroundColor: RepoColor().color5,
+              title: Column(
+                children: [
+                  Center(
+                    child: TextFormField(
+                      key: Key('search'),
+                      onChanged: (s) {
+                        if (s.length <= 0) {
+                          setState(() {
+                            _searchBoolean = false;
+                          });
+                        } else if (s.length >= 0) {
+                          setState(() {
+                            _searchIndexList = [];
+                            _searchBoolean = true;
+                            for (int i = 0; i < _list.length; i++) {
+                              if (_list[i]
+                                  .toLowerCase()
+                                  .contains(s.toLowerCase())) {
+                                _searchIndexList.add(i);
+                              }
+                            }
+                          });
+                        }
+                      },
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.search_rounded),
+                        hintStyle: UrbanistText().styleText(16),
+                        hintText: "Search",
+                        fillColor: RepoColor().color6,
+                        contentPadding: const EdgeInsets.symmetric(vertical: 1),
+                        filled: true,
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            borderSide: BorderSide.none),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30),
+                ),
+              ),
+            ),
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(30),
+                bottomRight: Radius.circular(30),
+              ),
+            ),
           ),
-        ),
+          // Other Sliver Widgets
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Expanded(
+                child: !_searchBoolean
+                    ? _defaultwidget(kategori: kategori)
+                    : _searchListView(),
+              ),
+            ),
+          )
+        ],
       ),
-      appBarShape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(30),
-          bottomRight: Radius.circular(30),
-        ),
-      ),
-      child: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.all(15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TopMentor(kategori: kategori),
-              spaceHeight(10),
-              PopularCourses(kategori: kategori),
-              spaceHeight(10),
-              Categories(kategori: kategori),
-            ],
-          ),
-        ),
-      ),
+    );
+  }
+}
+
+class _defaultwidget extends StatelessWidget {
+  const _defaultwidget({
+    Key? key,
+    required this.kategori,
+  }) : super(key: key);
+
+  final List kategori;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TopMentor(kategori: kategori),
+        spaceHeight(10),
+        PopularCourses(kategori: kategori),
+        spaceHeight(10),
+        Categories(kategori: kategori),
+      ],
     );
   }
 }
@@ -226,31 +215,33 @@ class Categories extends StatelessWidget {
           children: [
             UrbanistText().blackBold('Categories', 20),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  TransisiHalaman(
+                    tipe: PageTransitionType.rightToLeftWithFade,
+                    page: AllCategoriesPage(),
+                  ),
+                );
+              },
               child: UrbanistText().blackNormal('See All', 18),
             ),
           ],
         ),
         Container(
-          height: 230,
+          height: 150,
           child: GridView.builder(
-            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
             itemCount: kategori.length,
             itemBuilder: (context, index) {
-              return Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                elevation: 2,
-                child: Center(
-                  child: UrbanistText().blackNormal(kategori[index], 16),
-                ),
+              return ItemCategory(
+                kategori: kategori[index],
               );
             },
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 200.0,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
               crossAxisSpacing: 10.0,
-              childAspectRatio: 4.0,
+              childAspectRatio: 2.5,
             ),
           ),
         ),
@@ -276,7 +267,15 @@ class PopularCourses extends StatelessWidget {
           children: [
             UrbanistText().blackBold('Popular Courses', 20),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  TransisiHalaman(
+                    tipe: PageTransitionType.rightToLeftWithFade,
+                    page: AllCoursePage(),
+                  ),
+                );
+              },
               child: UrbanistText().blackNormal('See All', 18),
             ),
           ],
@@ -287,7 +286,7 @@ class PopularCourses extends StatelessWidget {
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
-              return ItemPopularCourses();
+              return const ItemPopularCourses();
             },
             itemCount: kategori.length,
           ),

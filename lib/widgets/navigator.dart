@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:capstone_flutter/constants/colors.dart';
 import 'package:capstone_flutter/screens/course/mycoursepage.dart';
 import 'package:capstone_flutter/screens/home/homepage.dart';
-import 'package:capstone_flutter/screens/profile/profilepage.dart';
+import 'package:capstone_flutter/screens/profile/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:motion_tab_bar_v2/motion-tab-bar.dart';
 
@@ -80,12 +80,10 @@ class _NavigationPageState extends State<NavigationPage>
   //   );
 
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     Homepage(),
-    Mycoursepage(),
-    Profilepage(),
+    MyCoursePage(),
+    ProfilePage(),
   ];
 
   void _onItemTapped(int index) {
@@ -97,9 +95,7 @@ class _NavigationPageState extends State<NavigationPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
+      body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(

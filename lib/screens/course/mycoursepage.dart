@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import '../../constants/colors.dart';
 import '../../widgets/space.dart';
 
-class Mycoursepage extends StatelessWidget {
-  const Mycoursepage({Key? key}) : super(key: key);
+class MyCoursePage extends StatelessWidget {
+  const MyCoursePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

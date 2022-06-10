@@ -1,6 +1,6 @@
 import 'package:capstone_flutter/constants/colors.dart';
 import 'package:capstone_flutter/constants/icon.dart';
-import 'package:capstone_flutter/screens/course/course_ongoing.dart';
+import 'package:capstone_flutter/screens/course/course_ongoing_page.dart';
 import 'package:capstone_flutter/screens/home/detailcoursepage.dart';
 import 'package:capstone_flutter/widgets/space.dart';
 import 'package:capstone_flutter/widgets/text.dart';
@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:progresso/progresso.dart';
 
-import '../screens/course/course_completed.dart';
+import '../screens/course/course_completed_page.dart';
 
 class ItemTopMentor extends StatelessWidget {
   String? nama;
@@ -51,46 +51,114 @@ class ItemPopularCourses extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
         ),
         elevation: 2,
-        child: Container(
-          padding: const EdgeInsets.all(10.0),
-          height: 136,
-          width: 208,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              spaceHeight(10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              Container(
+                height: 121,
+                width: 176,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  image: DecorationImage(
+                    image: NetworkImage(
+                        'https://www.cdmi.in/courses@2x/flutter-training-institute.jpg'),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              spaceHeight(15),
+              UrbanistText().blackBold('Office Productifity', 18),
+              spaceHeight(8),
+              Row(
                 children: [
-                  Container(
-                    height: 120,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      image: DecorationImage(
-                        image: NetworkImage(
-                            'https://www.cdmi.in/courses@2x/flutter-training-institute.jpg'),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  spaceHeight(10),
-                  UrbanistText().blackBold('Office Productifity', 18),
-                  spaceHeight(10),
-                  Row(
-                    children: [
-                      Icon(Icons.star, color: Colors.amber[400]),
-                      UrbanistText().blackNormal('4.8 (230 reviews)', 14)
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Icon(Icons.person, color: Colors.blue),
-                      UrbanistText().blackNormal('56 Employees', 14)
-                    ],
-                  ),
+                  Icon(Icons.star, color: Colors.amber[400]),
+                  UrbanistText().blackNormal('4.8 (230 reviews)', 14)
+                ],
+              ),
+              Row(
+                children: [
+                  Icon(Icons.person, color: Colors.blue),
+                  UrbanistText().blackNormal('56 Employees', 14)
                 ],
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class ItemCategory extends StatelessWidget {
+  String? kategori;
+  ItemCategory({Key? key, this.kategori}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      elevation: 2,
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 5, right: 5),
+          child: UrbanistText().blackNormal('$kategori', 14),
+        ),
+      ),
+    );
+  }
+}
+
+class ItemAllCourse extends StatelessWidget {
+  const ItemAllCourse({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      elevation: 2,
+      child: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Row(
+          children: [
+            Container(
+              height: 100,
+              width: 100,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                image: const DecorationImage(
+                  image: NetworkImage(
+                      'https://www.cdmi.in/courses@2x/flutter-training-institute.jpg'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            spaceWidth(10),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                UrbanistText().blackBold('Office Productifity', 18),
+                spaceHeight(10),
+                Row(
+                  children: [
+                    Icon(Icons.star, color: Colors.amber[400]),
+                    UrbanistText().blackNormal('4.8 (230 reviews)', 14),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Icon(Icons.person, color: Colors.blue),
+                    UrbanistText().blackNormal('56 employees', 14),
+                  ],
+                ),
+              ],
+            )
+          ],
         ),
       ),
     );
@@ -225,7 +293,7 @@ class ItemLessonOnGoing extends StatelessWidget {
           TransisiHalaman(
             tipe: PageTransitionType.scale,
             align: Alignment.center,
-            page: CourseOnGoing(),
+            page: CourseOnGoingPage(),
           ),
         );
       },
@@ -296,7 +364,7 @@ class ItemLessonCompleted extends StatelessWidget {
           TransisiHalaman(
             tipe: PageTransitionType.scale,
             align: Alignment.center,
-            page: CourseCompleted(),
+            page: CourseCompletedPage(),
           ),
         );
       },

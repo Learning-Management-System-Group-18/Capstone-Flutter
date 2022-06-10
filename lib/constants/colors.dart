@@ -5,6 +5,8 @@ class RepoColor {
   Color color4 = const Color.fromRGBO(51, 94, 247, 0.2); //#335EF7
   final Color color2 = const Color.fromRGBO(67, 96, 201, 3); //#4360C9
   final Color color3 = const Color.fromRGBO(250, 250, 250, 3); //#FAFAFA
+  final Color color5 = const Color.fromRGBO(75, 114, 251, 1);
+  final Color color6 = const Color.fromRGBO(255, 255, 255, 0.7);
 
   final Color colorRed = const Color.fromRGBO(255, 52, 52, 1);
   final Color colorYellow = const Color.fromRGBO(253, 184, 8, 1);
