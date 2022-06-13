@@ -46,7 +46,7 @@ Widget _tabSection(BuildContext context) {
                     color: RepoColor().color1,
                     width: 4.0,
                   ),
-                  insets: EdgeInsets.symmetric(horizontal: 10.0)),
+                  insets: const EdgeInsets.symmetric(horizontal: 10.0)),
               tabs: const [
                 Tab(
                   child: Text(
@@ -68,9 +68,9 @@ Widget _tabSection(BuildContext context) {
                 ),
               ]),
         ),
-        Container(
+        const SizedBox(
           height: 600,
-          child: const TabBarView(
+          child: TabBarView(
             physics: NeverScrollableScrollPhysics(),
             children: [
               ItemOnGoingTabBar(),

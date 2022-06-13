@@ -15,9 +15,9 @@ class DetailCoursePage extends StatefulWidget {
 }
 
 class _DetailCoursePageState extends State<DetailCoursePage> {
-  bool _pinned = true;
-  bool _snap = false;
-  bool _floating = false;
+  final bool _pinned = true;
+  final bool _snap = false;
+  final bool _floating = false;
 
   List lesson = [
     {
@@ -195,7 +195,7 @@ Widget _tabSection(BuildContext context, List lesson) {
                     color: RepoColor().color1,
                     width: 4.0,
                   ),
-                  insets: EdgeInsets.symmetric(horizontal: 10.0)),
+                  insets: const EdgeInsets.symmetric(horizontal: 10.0)),
               tabs: const [
                 Tab(
                   child: Text(
@@ -221,11 +221,11 @@ Widget _tabSection(BuildContext context, List lesson) {
           color: Colors.white,
           height: 358,
           child: TabBarView(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             children: [
-              ItemAboutTabBar(),
+              const ItemAboutTabBar(),
               ItemLessonsTabBar(lesson: lesson),
-              ItemReviewTabBar(),
+              const ItemReviewTabBar(),
             ],
           ),
         ),

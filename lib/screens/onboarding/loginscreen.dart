@@ -1,6 +1,5 @@
 import 'package:capstone_flutter/constants/colors.dart';
 import 'package:capstone_flutter/screens/onboarding/registerscreen.dart';
-import 'package:capstone_flutter/widgets/navigator.dart';
 import 'package:capstone_flutter/widgets/space.dart';
 import 'package:capstone_flutter/widgets/text.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +50,7 @@ class _LoginscreenState extends State<Loginscreen> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
-          physics: ClampingScrollPhysics(),
+          physics: const ClampingScrollPhysics(),
           child: Container(
             padding:
                 const EdgeInsets.only(left: 25, right: 25, top: 10, bottom: 15),
@@ -72,7 +71,7 @@ class _LoginscreenState extends State<Loginscreen> {
                   UrbanistText().blackBold("Login to your Account", 30),
                   spaceHeight(38),
                   TextFormField(
-                    key: Key('email'),
+                    key: const Key('email'),
                     style: UrbanistText().styleText(16),
                     controller: emailController,
                     decoration: InputDecoration(
@@ -91,7 +90,7 @@ class _LoginscreenState extends State<Loginscreen> {
                     height: 24,
                   ),
                   TextFormField(
-                    key: Key('password'),
+                    key: const Key('password'),
                     style: UrbanistText().styleText(16),
                     obscureText: !passwordVisible!,
                     enableSuggestions: false,
@@ -167,7 +166,7 @@ class _LoginscreenState extends State<Loginscreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Registerscreen()));
+                                  builder: (context) => const Registerscreen()));
                         },
                         child: UrbanistText().primaryBold('Sign Up', 16),
                       ),

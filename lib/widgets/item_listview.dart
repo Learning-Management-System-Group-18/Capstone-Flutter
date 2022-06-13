@@ -1,7 +1,9 @@
 import 'package:capstone_flutter/constants/colors.dart';
 import 'package:capstone_flutter/constants/icon.dart';
 import 'package:capstone_flutter/screens/course/course_ongoing_page.dart';
+import 'package:capstone_flutter/screens/course/lesson_page.dart';
 import 'package:capstone_flutter/screens/home/detailcoursepage.dart';
+import 'package:capstone_flutter/widgets/alert.dart';
 import 'package:capstone_flutter/widgets/space.dart';
 import 'package:capstone_flutter/widgets/text.dart';
 import 'package:capstone_flutter/widgets/transition.dart';
@@ -260,21 +262,72 @@ class ItemLesson extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(30),
-        side: BorderSide(color: RepoColor().color1),
-      ),
-      elevation: 0,
-      child: Center(
-        child: ListTile(
-          leading: CircleAvatar(
-            radius: 16,
-            backgroundColor: RepoColor().color4,
-            child: UrbanistText().primaryNormal('${data[idx][0]}', 16),
+    return InkWell(
+      onTap: () {
+        AlertError(context, 'Please to Enroll the Course!');
+      },
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+          side: BorderSide(color: RepoColor().color1),
+        ),
+        elevation: 0,
+        child: Center(
+          child: ListTile(
+            leading: CircleAvatar(
+              radius: 16,
+              backgroundColor: RepoColor().color4,
+              child: UrbanistText().primaryNormal('${data[idx][0]}', 16),
+            ),
+            title: UrbanistText().blackNormal('${data[idx][1]}', 16),
+            trailing: RepoIcon().primaryPlay,
           ),
-          title: UrbanistText().blackNormal('${data[idx][1]}', 16),
-          trailing: RepoIcon().primaryPlay,
+        ),
+      ),
+    );
+  }
+}
+
+//Ini item section Ketika Item On Going Di Klik
+class ItemLessonCourseOnGoing extends StatelessWidget {
+  final data;
+  int? idx;
+  String? section;
+  ItemLessonCourseOnGoing({Key? key, this.data, this.idx, this.section})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          TransisiHalaman(
+            tipe: PageTransitionType.rightToLeftWithFade,
+            page: LessonPage(
+              section: section,
+              lesson: data[idx][1],
+              no: data[idx][0],
+            ),
+          ),
+        );
+      },
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+          side: BorderSide(color: RepoColor().color1),
+        ),
+        elevation: 0,
+        child: Center(
+          child: ListTile(
+            leading: CircleAvatar(
+              radius: 16,
+              backgroundColor: RepoColor().color4,
+              child: UrbanistText().primaryNormal('${data[idx][0]}', 16),
+            ),
+            title: UrbanistText().blackNormal('${data[idx][1]}', 16),
+            trailing: RepoIcon().primaryPlay,
+          ),
         ),
       ),
     );

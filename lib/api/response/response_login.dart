@@ -8,15 +8,15 @@ class Responselogin {
   Responselogin.fromJson(Map<String, dynamic> json) {
     timestamp = json['timestamp'];
     status =
-        json['status'] != null ? new Status.fromJson(json['status']) : null;
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+        json['status'] != null ? Status.fromJson(json['status']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['timestamp'] = this.timestamp;
-    if (this.status != null) {
-      data['status'] = this.status!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['timestamp'] = timestamp;
+    if (status != null) {
+      data['status'] = status!.toJson();
     }
     if (this.data != null) {
       data['data'] = this.data!.toJson();
@@ -37,9 +37,9 @@ class Status {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['code'] = code;
+    data['message'] = message;
     return data;
   }
 }
@@ -56,9 +56,9 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['token'] = this.token;
-    data['role'] = this.role;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['token'] = token;
+    data['role'] = role;
     return data;
   }
 }

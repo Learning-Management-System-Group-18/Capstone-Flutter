@@ -38,7 +38,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          decoration: BoxDecoration(color: Colors.white),
+          decoration: const BoxDecoration(color: Colors.white),
           padding: const EdgeInsets.all(20),
           child: Form(
             child: Column(
@@ -46,35 +46,35 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 imageprofile(context),
                 spaceHeight(20),
                 TextFormField(
-                  key: Key('nama'),
+                  key: const Key('nama'),
                   style: UrbanistText().styleText(16),
                   // controller: emailController,
                   decoration: input_decoration('nama'),
                 ),
                 spaceHeight(20),
                 TextFormField(
-                  key: Key('email'),
+                  key: const Key('email'),
                   style: UrbanistText().styleText(16),
                   // controller: emailController,
                   decoration: input_decoration('email'),
                 ),
                 spaceHeight(20),
                 TextFormField(
-                  key: Key('nohp'),
+                  key: const Key('nohp'),
                   style: UrbanistText().styleText(16),
                   // controller: emailController,
                   decoration: input_decoration('nohp'),
                 ),
                 spaceHeight(20),
                 TextFormField(
-                  key: Key('jenis kelamin'),
+                  key: const Key('jenis kelamin'),
                   style: UrbanistText().styleText(16),
                   // controller: emailController,
                   decoration: input_decoration('jenis kelamin'),
                 ),
                 spaceHeight(20),
                 TextFormField(
-                  key: Key('employee'),
+                  key: const Key('employee'),
                   style: UrbanistText().styleText(16),
                   // controller: emailController,
                   decoration: input_decoration('employee'),
@@ -107,7 +107,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     return Container(
       height: 100.0,
       width: MediaQuery.of(context).size.width,
-      margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+      margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
       child: Column(
         children: [
           UrbanistText().blackNormal('Choose Profile photo', 18),
@@ -119,7 +119,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text("PICK FROM GALLERY"),
+                child: const Text("PICK FROM GALLERY"),
               ),
               Container(
                 height: 40.0,
@@ -128,7 +128,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text("PICK FROM CAMERA"),
+                child: const Text("PICK FROM CAMERA"),
               ),
             ],
           )
@@ -153,7 +153,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     return Stack(
       children: [
         if (file == null) ...[
-          CircleAvatar(
+          const CircleAvatar(
               radius: 70.0,
               backgroundImage: AssetImage('assets/images/profile.png')),
         ] else ...[

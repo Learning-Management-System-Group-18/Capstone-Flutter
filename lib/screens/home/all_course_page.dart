@@ -1,5 +1,3 @@
-import 'package:capstone_flutter/constants/colors.dart';
-import 'package:capstone_flutter/widgets/space.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/icon.dart';
@@ -34,7 +32,7 @@ class _AllCoursePageState extends State<AllCoursePage> {
   bool _searchBoolean = false;
   List<int> _searchIndexList = [];
 
-  List<String> _list = [
+  final List<String> _list = [
     'English Textbook',
     'Japanese Textbook',
     'English Vocabulary',
@@ -61,7 +59,7 @@ class _AllCoursePageState extends State<AllCoursePage> {
         });
       },
       autofocus: true,
-      cursorColor: Color.fromRGBO(51, 94, 247, 3),
+      cursorColor: const Color.fromRGBO(51, 94, 247, 3),
       style: const TextStyle(
           color: Colors.black, fontSize: 20, fontFamily: 'Urbanist'),
       textInputAction: TextInputAction.search,
@@ -93,7 +91,7 @@ class _AllCoursePageState extends State<AllCoursePage> {
     return ListView.builder(
         itemCount: _list.length,
         itemBuilder: (context, index) {
-          return ItemAllCourse();
+          return const ItemAllCourse();
         });
   }
 
@@ -128,7 +126,7 @@ class _AllCoursePageState extends State<AllCoursePage> {
               ]
             : [
                 IconButton(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.clear,
                     color: Color.fromRGBO(51, 94, 247, 3),
                   ),
@@ -143,7 +141,7 @@ class _AllCoursePageState extends State<AllCoursePage> {
               ],
       ),
       body: Container(
-        decoration: BoxDecoration(color: Colors.white),
+        decoration: const BoxDecoration(color: Colors.white),
         padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
         child: Column(
           children: [

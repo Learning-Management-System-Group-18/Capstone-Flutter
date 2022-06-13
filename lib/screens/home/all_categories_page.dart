@@ -1,5 +1,3 @@
-import 'package:capstone_flutter/constants/colors.dart';
-import 'package:capstone_flutter/widgets/space.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/icon.dart';
@@ -31,7 +29,7 @@ class _AllCategoriesPageState extends State<AllCategoriesPage> {
     "Category 6",
   ];
   TextEditingController _searchQueryController = TextEditingController();
-  bool _isSearching = false;
+  final bool _isSearching = false;
   String searchQuery = "Search query";
 
   @override
@@ -67,11 +65,11 @@ class _AllCategoriesPageState extends State<AllCategoriesPage> {
         ],
       ),
       body: Container(
-        decoration: BoxDecoration(color: Colors.white),
+        decoration: const BoxDecoration(color: Colors.white),
         padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
         child: Column(
           children: [
-            Container(
+            SizedBox(
               height: 50,
               child: ListView.builder(
                 itemCount: kategori.length,
@@ -86,7 +84,7 @@ class _AllCategoriesPageState extends State<AllCategoriesPage> {
             Expanded(
               child: ListView.builder(
                 itemBuilder: (context, index) {
-                  return ItemAllCourse();
+                  return const ItemAllCourse();
                 },
                 itemCount: 6,
               ),

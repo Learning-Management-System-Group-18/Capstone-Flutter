@@ -18,7 +18,8 @@ class CourseOnGoingPage extends StatelessWidget {
           ['02', 'Slide', 'url'],
           ['03', 'Latihan', 'url'],
           ['04', 'Quiz', 'url'],
-        ]
+        ],
+        'completed': false,
       },
       {
         'section': 'Section 2 - Flutter Introduction',
@@ -27,7 +28,8 @@ class CourseOnGoingPage extends StatelessWidget {
           ['02', 'Slide', 'url'],
           ['03', 'Latihan', 'url'],
           ['04', 'Quiz', 'url'],
-        ]
+        ],
+        'completed': false,
       },
       {
         'section': 'Section 3 - Introduction',
@@ -36,7 +38,8 @@ class CourseOnGoingPage extends StatelessWidget {
           ['02', 'Slide', 'url'],
           ['03', 'Latihan', 'url'],
           ['04', 'Quiz', 'url'],
-        ]
+        ],
+        'completed': false,
       },
       {
         'section': 'Section 4 - Flutter Introduction',
@@ -45,7 +48,8 @@ class CourseOnGoingPage extends StatelessWidget {
           ['02', 'Slide', 'url'],
           ['03', 'Latihan', 'url'],
           ['04', 'Quiz', 'url'],
-        ]
+        ],
+        'completed': false,
       },
     ];
 
@@ -70,12 +74,13 @@ class CourseOnGoingPage extends StatelessWidget {
             itemCount: lesson.length,
             itemBuilder: (context, index) {
               final data = lesson[index];
+              String section = data['section'];
               List lesson2 = lesson[index]['lesson'];
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   spaceHeight(20),
-                  UrbanistText().blackBold('${data['section']}', 18),
+                  UrbanistText().blackBold('$section', 18),
                   spaceHeight(10),
                   ListView.builder(
                     physics: NeverScrollableScrollPhysics(),
@@ -83,7 +88,11 @@ class CourseOnGoingPage extends StatelessWidget {
                     padding: EdgeInsets.zero,
                     itemCount: lesson2.length,
                     itemBuilder: (context, idx) {
-                      return ItemLesson(data: lesson2, idx: idx);
+                      return ItemLessonCourseOnGoing(
+                        data: lesson2,
+                        idx: idx,
+                        section: section,
+                      );
                     },
                   )
                 ],

@@ -50,7 +50,7 @@ class Splashscreen extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Loginscreen()));
+                        MaterialPageRoute(builder: (context) => const Loginscreen()));
                   },
                   child: const Text('Get Started'),
                   style: ElevatedButton.styleFrom(

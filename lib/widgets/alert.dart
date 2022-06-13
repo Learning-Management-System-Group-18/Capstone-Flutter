@@ -1,5 +1,5 @@
 import 'package:capstone_flutter/constants/colors.dart';
-import 'package:capstone_flutter/widgets/text.dart';
+// import 'package:capstone_flutter/widgets/text.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +22,7 @@ Future EnrollSucces(BuildContext context, String text) {
       confirmBtnText: 'View Course',
       text: text,
       confirmBtnTextStyle:
-          TextStyle(fontSize: 16, fontFamily: 'Urbanist', color: Colors.white));
+          const TextStyle(fontSize: 16, fontFamily: 'Urbanist', color: Colors.white));
 }
 
 Future AlertInfo(BuildContext context, String text) {

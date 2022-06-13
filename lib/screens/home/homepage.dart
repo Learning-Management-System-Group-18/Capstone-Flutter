@@ -27,32 +27,42 @@ class _HomepageState extends State<Homepage> {
     'Japanese Vocabulary'
   ];
 
+  final List kategori = [
+    "Category 1",
+    "Category 2",
+    "Category 3",
+    "Category 4",
+    "Category 5",
+    "Category 6",
+  ];
+
   Widget _searchListView() {
-    return Container(
-      height: 300,
-      child: ListView.builder(
-        padding: EdgeInsets.zero,
-        shrinkWrap: true,
-        itemCount: _searchIndexList.length,
-        itemBuilder: (context, index) {
-          index = _searchIndexList[index];
-          return Card(child: ListTile(title: Text(_list[index])));
-        },
-      ),
+    return ListView.builder(
+      padding: EdgeInsets.zero,
+      shrinkWrap: true,
+      itemCount: _searchIndexList.length,
+      itemBuilder: (context, index) {
+        index = _searchIndexList[index];
+        return Card(child: ListTile(title: Text(_list[index])));
+      },
+    );
+  }
+
+  Widget _defaultwidget() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TopMentor(kategori: kategori),
+        spaceHeight(10),
+        PopularCourses(kategori: kategori),
+        spaceHeight(10),
+        Categories(kategori: kategori),
+      ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final List kategori = [
-      "Category 1",
-      "Category 2",
-      "Category 3",
-      "Category 4",
-      "Category 5",
-      "Category 6",
-    ];
-
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -160,40 +170,13 @@ class _HomepageState extends State<Homepage> {
           ),
           // Other Sliver Widgets
           SliverToBoxAdapter(
-            child: Padding(
+            child: Container(
               padding: const EdgeInsets.all(15.0),
-              child: Expanded(
-                child: !_searchBoolean
-                    ? _defaultwidget(kategori: kategori)
-                    : _searchListView(),
-              ),
+              child: !_searchBoolean ? _defaultwidget() : _searchListView(),
             ),
           )
         ],
       ),
-    );
-  }
-}
-
-class _defaultwidget extends StatelessWidget {
-  const _defaultwidget({
-    Key? key,
-    required this.kategori,
-  }) : super(key: key);
-
-  final List kategori;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        TopMentor(kategori: kategori),
-        spaceHeight(10),
-        PopularCourses(kategori: kategori),
-        spaceHeight(10),
-        Categories(kategori: kategori),
-      ],
     );
   }
 }

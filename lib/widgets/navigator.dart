@@ -1,11 +1,9 @@
-import 'dart:async';
-
 import 'package:capstone_flutter/constants/colors.dart';
 import 'package:capstone_flutter/screens/course/mycoursepage.dart';
 import 'package:capstone_flutter/screens/home/homepage.dart';
 import 'package:capstone_flutter/screens/profile/profile_page.dart';
 import 'package:flutter/material.dart';
-import 'package:motion_tab_bar_v2/motion-tab-bar.dart';
+// import 'package:motion_tab_bar_v2/motion-tab-bar.dart';
 
 class NavigationPage extends StatefulWidget {
   const NavigationPage({Key? key}) : super(key: key);

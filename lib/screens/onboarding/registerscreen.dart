@@ -43,7 +43,7 @@ class _RegisterscreenState extends State<Registerscreen> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
-          physics: ClampingScrollPhysics(),
+          physics: const ClampingScrollPhysics(),
           child: Container(
             padding:
                 const EdgeInsets.only(left: 25, right: 25, top: 10, bottom: 15),
@@ -64,7 +64,7 @@ class _RegisterscreenState extends State<Registerscreen> {
                   UrbanistText().blackBold('Create your Account', 30),
                   spaceHeight(38),
                   TextFormField(
-                    key: Key('username'),
+                    key: const Key('username'),
                     style: UrbanistText().styleText(16),
                     decoration: InputDecoration(
                       prefixIcon: RepoIcon().user2,
@@ -82,7 +82,7 @@ class _RegisterscreenState extends State<Registerscreen> {
                   ),
                   spaceHeight(10),
                   TextFormField(
-                    key: Key('email'),
+                    key: const Key('email'),
                     style: UrbanistText().styleText(16),
                     decoration: InputDecoration(
                       prefixIcon: RepoIcon().email1,
@@ -99,7 +99,7 @@ class _RegisterscreenState extends State<Registerscreen> {
                   ),
                   spaceHeight(10),
                   TextFormField(
-                    key: Key('password'),
+                    key: const Key('password'),
                     style: UrbanistText().styleText(16),
                     obscureText: !passwordVisible!,
                     enableSuggestions: false,

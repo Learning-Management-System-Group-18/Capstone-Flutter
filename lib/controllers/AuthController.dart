@@ -68,7 +68,7 @@ class AuthController extends ChangeNotifier {
       TransisiHalaman(
           tipe: PageTransitionType.size,
           align: Alignment.center,
-          page: NavigationPage()),
+          page: const NavigationPage()),
       (route) => false,
     );
     notifyListeners();
@@ -103,7 +103,7 @@ class AuthController extends ChangeNotifier {
         TransisiHalaman(
           tipe: PageTransitionType.size,
           align: Alignment.center,
-          page: NavigationPage(),
+          page: const NavigationPage(),
         ),
         (route) => false,
       );
