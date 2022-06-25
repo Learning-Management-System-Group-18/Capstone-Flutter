@@ -1,4 +1,6 @@
+import 'package:capstone_flutter/controllers/HomeController.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../constants/icon.dart';
 import '../../widgets/item_listview.dart';
@@ -37,10 +39,19 @@ class _AllCategoriesPageState extends State<AllCategoriesPage> {
     // TODO: implement initState
     super.initState();
     _searchQueryController = TextEditingController();
+    if (WidgetsBinding.instance != null) {
+      WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+        Provider.of<HomeController>(context, listen: false).getDataCategories();
+      });
+      WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+        Provider.of<HomeController>(context, listen: false).getDataAllCourse();
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final homeController = Provider.of<HomeController>(context);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -72,21 +83,24 @@ class _AllCategoriesPageState extends State<AllCategoriesPage> {
             SizedBox(
               height: 50,
               child: ListView.builder(
-                itemCount: kategori.length,
+                itemCount: homeController.categories.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
-                  return ItemCategory(
-                    kategori: kategori[index],
-                  );
+                  // return Text(''); //harunya item kategori
+                  final category = homeController.categories[index];
+                  return ItemCategory(data: category);
                 },
               ),
             ),
             Expanded(
               child: ListView.builder(
+                itemCount: homeController.courses.length,
                 itemBuilder: (context, index) {
-                  return const ItemAllCourse();
+                  final course = homeController.courses[index];
+                  return ItemAllCourse(
+                    data: course,
+                  );
                 },
-                itemCount: 6,
               ),
             ),
           ],
