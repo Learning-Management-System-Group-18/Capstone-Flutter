@@ -2,7 +2,7 @@ import 'package:capstone_flutter/widgets/item_listview.dart';
 import 'package:capstone_flutter/widgets/space.dart';
 import 'package:capstone_flutter/widgets/text.dart';
 import 'package:flutter/material.dart';
-import 'package:progresso/progresso.dart';
+// import 'package:progresso/progresso.dart';
 
 class ItemAboutTabBar extends StatelessWidget {
   const ItemAboutTabBar({Key? key}) : super(key: key);
@@ -125,7 +125,7 @@ class ItemReviewTabBar extends StatelessWidget {
       {
         'nama': 'Maulana',
         'bintang': 4,
-        'comment': 'Terima kasih, ilmunya sangat bermanfaat',
+        'comment': 'Terima kasih, ilmunya sangat bermanfaat hbshdbshdhsd',
         'like': 3,
         'last_update': 1,
       },
@@ -147,7 +147,7 @@ class ItemReviewTabBar extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.star,
                     color: Colors.amber,
                   ),
@@ -177,7 +177,7 @@ class ItemReviewTabBar extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 15, right: 15),
                       child: Row(
                         children: [
-                          Icon(Icons.star, color: Colors.amber),
+                          const Icon(Icons.star, color: Colors.amber),
                           spaceWidth(3),
                           UrbanistText().blackNormal('${review[index]}', 16)
                         ],
@@ -192,7 +192,7 @@ class ItemReviewTabBar extends StatelessWidget {
           if (dataReview.isNotEmpty) ...[
             ListView.builder(
               padding: EdgeInsets.zero,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: dataReview.length,
               itemBuilder: (context, index) {
@@ -221,9 +221,9 @@ class ItemOnGoingTabBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: 3,
-      padding: EdgeInsets.only(top: 10),
+      padding: const EdgeInsets.only(top: 10),
       itemBuilder: (context, index) {
-        return ItemLessonOnGoing();
+        return const ItemCourseOnGoing();
       },
     );
   }
@@ -236,9 +236,9 @@ class ItemCompletedeTabBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: 2,
-      padding: EdgeInsets.only(top: 10),
+      padding: const EdgeInsets.only(top: 10),
       itemBuilder: (context, index) {
-        return ItemLessonCompleted();
+        return const ItemLessonCompleted();
       },
     );
   }

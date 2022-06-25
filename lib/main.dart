@@ -1,3 +1,4 @@
+import 'package:capstone_flutter/controllers/HomeController.dart';
 import 'package:capstone_flutter/screens/onboarding/loginscreen.dart';
 import 'package:capstone_flutter/screens/onboarding/registerscreen.dart';
 import 'package:capstone_flutter/screens/onboarding/splashscreen.dart';
@@ -12,6 +13,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var islogin = prefs.getBool("is_login");
+  print('login : $islogin');
   runApp(
     MultiProvider(
       providers: [
@@ -22,6 +24,9 @@ Future<void> main() async {
         ChangeNotifierProvider(
           create: (_) => AuthController(),
           child: const Loginscreen(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => HomeController(),
         ),
       ],
       child: MaterialApp(

@@ -22,7 +22,7 @@ class TermConditionPage extends StatelessWidget {
         elevation: 0,
       ),
       body: Container(
-        decoration: BoxDecoration(color: Colors.white),
+        decoration: const BoxDecoration(color: Colors.white),
         padding: const EdgeInsets.all(20),
         child: UrbanistText().blackNormal('Terms and Condition', 20),
       ),

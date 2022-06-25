@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 
 import '../../constants/colors.dart';
 import '../../constants/icon.dart';
-import '../../widgets/item_listview.dart';
-import '../../widgets/space.dart';
 import '../../widgets/text.dart';
 
 class CourseCompletedPage extends StatelessWidget {
@@ -73,7 +71,7 @@ class CourseCompletedPage extends StatelessWidget {
         backgroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         child: Container(
           color: Colors.white,
           padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
@@ -105,7 +103,7 @@ Widget _tabSection(BuildContext context, List lesson) {
                     color: RepoColor().color1,
                     width: 4.0,
                   ),
-                  insets: EdgeInsets.symmetric(horizontal: 10.0)),
+                  insets: const EdgeInsets.symmetric(horizontal: 10.0)),
               tabs: const [
                 Tab(
                   child: Text(
@@ -127,15 +125,15 @@ Widget _tabSection(BuildContext context, List lesson) {
                 ),
               ]),
         ),
-        Container(
+        SizedBox(
           height: 620,
           child: TabBarView(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             children: [
               ItemLessonsCompletedTabBar(
                 lesson: lesson,
               ),
-              ItemReviewTabBar(),
+              const ItemReviewTabBar(),
             ],
           ),
         ),

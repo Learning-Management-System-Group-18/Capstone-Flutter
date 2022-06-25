@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:capstone_flutter/constants/colors.dart';
+// import 'package:capstone_flutter/constants/colors.dart';
 import 'package:capstone_flutter/constants/icon.dart';
 import 'package:capstone_flutter/screens/profile/edit_profile_page.dart';
 import 'package:capstone_flutter/screens/profile/email_support_page.dart';
@@ -11,7 +11,7 @@ import 'package:capstone_flutter/widgets/space.dart';
 import 'package:capstone_flutter/widgets/text.dart';
 import 'package:capstone_flutter/widgets/transition.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+// import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -31,13 +31,15 @@ class _ProfilePageState extends State<ProfilePage> {
   logOut() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
-      preferences.remove("is_login");
+      preferences.setBool("is_login", false);
       preferences.remove("email");
+      preferences.remove("token");
     });
     Navigator.pushAndRemoveUntil(
       context,
       TransisiHalaman(
-          tipe: PageTransitionType.rightToLeftWithFade, page: Loginscreen()),
+          tipe: PageTransitionType.rightToLeftWithFade,
+          page: const Loginscreen()),
       (route) => false,
     );
   }

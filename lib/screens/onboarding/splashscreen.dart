@@ -23,7 +23,7 @@ class Splashscreen extends StatelessWidget {
                   width: 350.0,
                   decoration: const BoxDecoration(
                     image: DecorationImage(
-                      image: Svg('assets/images/helloimages.svg'),
+                      image: Svg('assets/images/splashscreen.svg'),
                     ),
                   ),
                 ),
@@ -31,26 +31,20 @@ class Splashscreen extends StatelessWidget {
                   height: 20,
                 ),
                 Text(
-                  'Hello,',
-                  style: GoogleFonts.urbanist(
-                      fontSize: 36, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  'Upgrade your Professional Skill with Us. Lets go Follow us',
+                  'Let’s improve your skills together with Level Up right now',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.urbanist(
-                      fontSize: 18, fontWeight: FontWeight.bold),
+                      fontSize: 28, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
                   height: 60,
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Loginscreen()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Loginscreen()));
                   },
                   child: const Text('Get Started'),
                   style: ElevatedButton.styleFrom(

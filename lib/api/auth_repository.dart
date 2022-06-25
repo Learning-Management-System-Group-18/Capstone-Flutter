@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:capstone_flutter/api/response/response_login.dart';
 import 'package:capstone_flutter/api/service.dart';
 import 'package:dio/dio.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthRepository {
   final ApiService apiService = ApiService();
@@ -29,13 +28,18 @@ class AuthRepository {
         apiService.baseUrl + 'login',
         options: Options(headers: {
           HttpHeaders.contentTypeHeader: "application/json",
+          // "Authorization" : "Bearer $token",
         }),
         data: jsonEncode(params),
       );
-      responselogin = Responselogin.fromJson(response.data);
-      print(responselogin);
-    } catch (e) {
-      print(e);
+      if (response.statusCode == 200) {
+        responselogin = Responselogin.fromJson(response.data);
+        return responselogin;
+      }
+    } on DioError catch (e) {
+      if (e.response?.statusCode == 400) {
+        print(e.response?.statusCode);
+      }
     }
     return responselogin;
   }

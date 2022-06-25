@@ -24,20 +24,20 @@ class ResetPasswordPage extends StatelessWidget {
         elevation: 0,
       ),
       body: Container(
-        decoration: BoxDecoration(color: Colors.white),
+        decoration: const BoxDecoration(color: Colors.white),
         padding: const EdgeInsets.all(20),
         child: Form(
           child: Column(
             children: [
               TextFormField(
-                key: Key('password1'),
+                key: const Key('password1'),
                 style: UrbanistText().styleText(16),
                 // controller: emailController,
                 decoration: input_decoration('New Password'),
               ),
               spaceHeight(20),
               TextFormField(
-                key: Key('password2'),
+                key: const Key('password2'),
                 style: UrbanistText().styleText(16),
                 // controller: emailController,
                 decoration: input_decoration('Repeat New Password'),

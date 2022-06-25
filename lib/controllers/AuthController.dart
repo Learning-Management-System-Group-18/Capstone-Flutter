@@ -24,12 +24,12 @@ class AuthController extends ChangeNotifier {
     if (name.length >= 3 || name.length <= 30) {
       _nama = name;
       return null;
-    }else if (name.length < 3) {
-        return 'Username min 3 characters!';
-    }else if(name.length > 30){
-        return 'Username max 30 characters!';
-    }else{
-        return 'Username min 3 characters!';
+    } else if (name.length < 3) {
+      return 'Username min 3 characters!';
+    } else if (name.length > 30) {
+      return 'Username max 30 characters!';
+    } else {
+      return 'Username min 3 characters!';
     }
   }
 
@@ -48,20 +48,23 @@ class AuthController extends ChangeNotifier {
     if (password.isEmpty) {
       return 'Password cannot be empty!';
     }
-    if (password.length >= 8 || password.length <=16) {
+    if (password.length >= 8 || password.length <= 16) {
       _password = password;
       return null;
-    } else if(password.length < 8 ) {
+    } else if (password.length < 8) {
       return 'Password min 8 characters! (${password.length}/16)';
-    }else if(password.length > 16){
+    } else if (password.length > 16) {
       return 'Password max 16 characters! (${password.length}/16)';
     }
   }
 
-  saveSession(BuildContext context, String email) async {
+  saveSession(
+      BuildContext context, String email, String token, String name) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     await pref.setString("email", email);
     await pref.setBool("is_login", true);
+    await pref.setString("token", token);
+    await pref.setString("fullName", name);
 
     Navigator.pushAndRemoveUntil(
       context,
@@ -71,7 +74,6 @@ class AuthController extends ChangeNotifier {
           page: NavigationPage()),
       (route) => false,
     );
-    notifyListeners();
   }
 
   isvalid(BuildContext context) {
@@ -84,6 +86,10 @@ class AuthController extends ChangeNotifier {
 
   cekLogin(BuildContext context, String email, String password) async {
     final login = await _authRepository.userLogin(email, password);
+    var token = login?.data?.token;
+    var fullName = login?.data?.fullName;
+
+    print(fullName);
 
     if (email == '' || password == '') {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -93,17 +99,26 @@ class AuthController extends ChangeNotifier {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Invalid email!')),
       );
-    } else if (login?.status?.code == "SUCCESS" && login?.data != null) {
+    } else if (login?.status?.code == "BAD_CREDENTIALS") {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Email or password is incorrect')),
+      );
+    } else if (login?.status?.code == "SUCCESS" &&
+        token != null &&
+        fullName != null) {
       saveSession(
         context,
         email,
+        token,
+        fullName,
       );
+      print(token);
       Navigator.pushAndRemoveUntil(
         context,
         TransisiHalaman(
           tipe: PageTransitionType.size,
           align: Alignment.center,
-          page: NavigationPage(),
+          page: const NavigationPage(),
         ),
         (route) => false,
       );

@@ -6,14 +6,14 @@ import '../../constants/icon.dart';
 import '../../widgets/item_listview.dart';
 import '../../widgets/text.dart';
 
-class AllCoursePage extends StatefulWidget {
-  const AllCoursePage({Key? key}) : super(key: key);
+class AllMentorPage extends StatefulWidget {
+  const AllMentorPage({Key? key}) : super(key: key);
 
   @override
-  State<AllCoursePage> createState() => _AllCoursePageState();
+  State<AllMentorPage> createState() => _AllMentorPageState();
 }
 
-class _AllCoursePageState extends State<AllCoursePage> {
+class _AllMentorPageState extends State<AllMentorPage> {
   final List kategori = [
     "Category 1sdsdsd",
     "Category 2",
@@ -100,10 +100,20 @@ class _AllCoursePageState extends State<AllCoursePage> {
     final double itemWidth = size.width / 2;
 
     return ListView.builder(
-      itemCount: homeController.courses.length,
+      itemCount: 4,
       itemBuilder: (context, index) {
-        final course = homeController.courses[index];
-        return ItemAllCourse(data: course);
+        return Column(
+          children: [
+            ListTile(
+              leading: CircleAvatar(
+                backgroundColor: Colors.amber,
+                radius: 20,
+              ),
+              title: UrbanistText().blackBold('Ini nama', 16),
+              subtitle: UrbanistText().blackNormal('Ini pekerjaan', 14),
+            ),
+          ],
+        );
       },
     );
   }
@@ -123,7 +133,7 @@ class _AllCoursePageState extends State<AllCoursePage> {
         ),
         elevation: 0.0,
         title: !_searchBoolean
-            ? UrbanistText().blackBold('All Courses', 20)
+            ? UrbanistText().blackBold('All Mentors', 20)
             : _searchTextField(),
         actions: !_searchBoolean
             ? [
