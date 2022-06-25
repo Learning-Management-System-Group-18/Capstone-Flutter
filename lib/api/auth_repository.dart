@@ -28,13 +28,18 @@ class AuthRepository {
         apiService.baseUrl + 'login',
         options: Options(headers: {
           HttpHeaders.contentTypeHeader: "application/json",
+          // "Authorization" : "Bearer $token",
         }),
         data: jsonEncode(params),
       );
-      responselogin = Responselogin.fromJson(response.data);
-      print(responselogin);
-    } catch (e) {
-      print(e);
+      if (response.statusCode == 200) {
+        responselogin = Responselogin.fromJson(response.data);
+        return responselogin;
+      }
+    } on DioError catch (e) {
+      if (e.response?.statusCode == 400) {
+        print(e.response?.statusCode);
+      }
     }
     return responselogin;
   }

@@ -31,13 +31,15 @@ class _ProfilePageState extends State<ProfilePage> {
   logOut() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
-      preferences.remove("is_login");
+      preferences.setBool("is_login", false);
       preferences.remove("email");
+      preferences.remove("token");
     });
     Navigator.pushAndRemoveUntil(
       context,
       TransisiHalaman(
-          tipe: PageTransitionType.rightToLeftWithFade, page: const Loginscreen()),
+          tipe: PageTransitionType.rightToLeftWithFade,
+          page: const Loginscreen()),
       (route) => false,
     );
   }

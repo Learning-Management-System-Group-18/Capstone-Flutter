@@ -1,12 +1,17 @@
 import 'package:capstone_flutter/constants/colors.dart';
 import 'package:capstone_flutter/screens/home/all_categories_page.dart';
 import 'package:capstone_flutter/screens/home/all_course_page.dart';
+import 'package:capstone_flutter/screens/home/all_mentor_page.dart';
 import 'package:capstone_flutter/widgets/item_listview.dart';
 import 'package:capstone_flutter/widgets/space.dart';
 import 'package:capstone_flutter/widgets/transition.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../controllers/HomeController.dart';
 import '../../widgets/text.dart';
 
 class Homepage extends StatefulWidget {
@@ -54,11 +59,36 @@ class _HomepageState extends State<Homepage> {
       children: [
         TopMentor(kategori: kategori),
         spaceHeight(10),
-        PopularCourses(kategori: kategori),
+        const PopularCourses(),
         spaceHeight(10),
-        Categories(kategori: kategori),
+        const Categories(),
       ],
     );
+  }
+
+  String? fullName;
+
+  getDataPref() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      fullName = prefs.getString('fullName');
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (WidgetsBinding.instance != null) {
+      WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+        Provider.of<HomeController>(context, listen: false).getDataCategories();
+      });
+      WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+        Provider.of<HomeController>(context, listen: false).getDataAllCourse();
+      });
+    }
+    getDataPref();
   }
 
   @override
@@ -73,46 +103,48 @@ class _HomepageState extends State<Homepage> {
             backgroundColor: RepoColor().color5,
             expandedHeight: 200,
             centerTitle: false,
-            title: UrbanistText().whiteBold('Kursus-in', 20),
+            title: UrbanistText().whiteBold('Level-Up', 20),
             flexibleSpace: FlexibleSpaceBar(
               background: Container(
                 padding: const EdgeInsets.all(20),
+                margin: const EdgeInsets.only(bottom: 30),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const CircleAvatar(
-                      backgroundImage: AssetImage('assets/images/profile.png'),
-                      radius: 35,
-                    ),
-                    const SizedBox(
-                      width: 12,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text(
-                          'Hi, Nirmala Azalea',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
+                    Row(
+                      children: [
+                        const CircleAvatar(
+                          backgroundImage:
+                              AssetImage('assets/images/profile.png'),
+                          radius: 20,
                         ),
-                        Text(
-                          "Let's start learning!",
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.white,
-                          ),
+                        const SizedBox(
+                          width: 12,
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            UrbanistText().whiteBold("Hi, $fullName", 18),
+                            UrbanistText()
+                                .whiteNormal("Let's start learning!", 14),
+                          ],
                         ),
                       ],
+                    ),
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.notifications_active,
+                        color: Colors.white,
+                      ),
                     ),
                   ],
                 ),
               ),
             ),
             bottom: AppBar(
-              toolbarHeight: 70,
+              toolbarHeight: 80,
               elevation: 0.0,
               backgroundColor: RepoColor().color5,
               title: Column(
@@ -182,15 +214,10 @@ class _HomepageState extends State<Homepage> {
 }
 
 class Categories extends StatelessWidget {
-  const Categories({
-    Key? key,
-    required this.kategori,
-  }) : super(key: key);
-
-  final List kategori;
-
+  const Categories({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final homeController = Provider.of<HomeController>(context);
     return Column(
       children: [
         Row(
@@ -215,16 +242,15 @@ class Categories extends StatelessWidget {
           height: 150,
           child: GridView.builder(
             shrinkWrap: true,
-            itemCount: kategori.length,
+            itemCount: homeController.categories.length,
             itemBuilder: (context, index) {
-              return ItemCategory(
-                kategori: kategori[index],
-              );
+              final category = homeController.dataCategory[index];
+              return ItemCategory(data: category);
             },
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
+              crossAxisCount: 2,
               crossAxisSpacing: 10.0,
-              childAspectRatio: 2.5,
+              childAspectRatio: 3,
             ),
           ),
         ),
@@ -234,15 +260,11 @@ class Categories extends StatelessWidget {
 }
 
 class PopularCourses extends StatelessWidget {
-  const PopularCourses({
-    Key? key,
-    required this.kategori,
-  }) : super(key: key);
-
-  final List kategori;
+  const PopularCourses({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final homeController = Provider.of<HomeController>(context);
     return Column(
       children: [
         Row(
@@ -269,9 +291,12 @@ class PopularCourses extends StatelessWidget {
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
-              return const ItemPopularCourses();
+              final course = homeController.courses[index];
+              return ItemPopularCourses(
+                data: course,
+              );
             },
-            itemCount: kategori.length,
+            itemCount: homeController.courses.length,
           ),
         ),
       ],
@@ -296,7 +321,15 @@ class TopMentor extends StatelessWidget {
           children: [
             UrbanistText().blackBold('Top Mentors', 20),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  TransisiHalaman(
+                    tipe: PageTransitionType.rightToLeftWithFade,
+                    page: AllMentorPage(),
+                  ),
+                );
+              },
               child: UrbanistText().blackNormal('See All', 18),
             ),
           ],

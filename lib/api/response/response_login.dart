@@ -7,8 +7,7 @@ class Responselogin {
 
   Responselogin.fromJson(Map<String, dynamic> json) {
     timestamp = json['timestamp'];
-    status =
-        json['status'] != null ? Status.fromJson(json['status']) : null;
+    status = json['status'] != null ? Status.fromJson(json['status']) : null;
     data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
@@ -45,20 +44,23 @@ class Status {
 }
 
 class Data {
+  String? fullName;
   String? token;
   List<String>? role;
 
-  Data({this.token, this.role});
+  Data({this.fullName, this.token, this.role});
 
   Data.fromJson(Map<String, dynamic> json) {
+    fullName = json['full_name'];
     token = json['token'];
     role = json['role'].cast<String>();
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['token'] = token;
-    data['role'] = role;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['full_name'] = this.fullName;
+    data['token'] = this.token;
+    data['role'] = this.role;
     return data;
   }
 }

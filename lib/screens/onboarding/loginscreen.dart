@@ -75,10 +75,15 @@ class _LoginscreenState extends State<Loginscreen> {
                     style: UrbanistText().styleText(16),
                     controller: emailController,
                     decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: RepoColor().color1, width: 1.0),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                       prefixIcon: RepoIcon().email1,
                       hintStyle: GoogleFonts.urbanist(fontSize: 16),
                       hintText: "Email",
-                      fillColor: RepoColor().color3,
+                      focusColor: RepoColor().color4,
                       filled: true,
                       isDense: true,
                       border: OutlineInputBorder(
@@ -97,6 +102,11 @@ class _LoginscreenState extends State<Loginscreen> {
                     autocorrect: false,
                     controller: passwordController,
                     decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: RepoColor().color1, width: 1.0),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                       prefixIcon: RepoIcon().lock,
                       hintStyle: GoogleFonts.urbanist(fontSize: 16),
                       hintText: "Password",
@@ -166,7 +176,8 @@ class _LoginscreenState extends State<Loginscreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const Registerscreen()));
+                                  builder: (context) =>
+                                      const Registerscreen()));
                         },
                         child: UrbanistText().primaryBold('Sign Up', 16),
                       ),
