@@ -59,7 +59,7 @@ Widget _tabSection(BuildContext context) {
                 ),
                 Tab(
                   child: Text(
-                    'Lessons',
+                    'Completed',
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 20,

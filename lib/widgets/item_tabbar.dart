@@ -125,7 +125,7 @@ class ItemReviewTabBar extends StatelessWidget {
       {
         'nama': 'Maulana',
         'bintang': 4,
-        'comment': 'Terima kasih, ilmunya sangat bermanfaat',
+        'comment': 'Terima kasih, ilmunya sangat bermanfaat hbshdbshdhsd',
         'like': 3,
         'last_update': 1,
       },
@@ -223,7 +223,7 @@ class ItemOnGoingTabBar extends StatelessWidget {
       itemCount: 3,
       padding: const EdgeInsets.only(top: 10),
       itemBuilder: (context, index) {
-        return const ItemLessonOnGoing();
+        return const ItemCourseOnGoing();
       },
     );
   }
