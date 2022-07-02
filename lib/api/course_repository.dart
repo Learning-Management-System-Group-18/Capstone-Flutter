@@ -40,7 +40,6 @@ class CourseRepository {
       if (response.statusCode == 200) {
         detailCourse = m_coursedetail.CourseDetail.fromJson(response.data);
         datacourse = detailCourse.data;
-        print(datacourse);
         return datacourse;
       }
     } on DioError catch (e) {
@@ -49,5 +48,26 @@ class CourseRepository {
       }
     }
     return datacourse;
+  }
+
+  Future<List<m_course.Data>?> getCourseByCategoryId(
+      {required int categoryId}) async {
+    m_course.Course? dataCourse;
+
+    var parameter = {"categoryId": categoryId, "page": 1, "size": 5};
+    try {
+      Response response = await apiService.dio
+          .get(apiService.baseUrl + 'courses', queryParameters: parameter);
+      if (response.statusCode == 200) {
+        dataCourse = m_course.Course.fromJson(response.data);
+        listdatacourse = dataCourse.data;
+        return listdatacourse;
+      }
+    } on DioError catch (e) {
+      if (e.response?.statusCode == 400) {
+        print(e.response?.statusCode);
+      }
+    }
+    return listdatacourse;
   }
 }

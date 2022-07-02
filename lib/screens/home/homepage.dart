@@ -1,4 +1,5 @@
 import 'package:capstone_flutter/constants/colors.dart';
+import 'package:capstone_flutter/constants/state.dart';
 import 'package:capstone_flutter/screens/home/all_categories_page.dart';
 import 'package:capstone_flutter/screens/home/all_course_page.dart';
 import 'package:capstone_flutter/screens/home/all_mentor_page.dart';
@@ -57,11 +58,11 @@ class _HomepageState extends State<Homepage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TopMentor(kategori: kategori),
+        const Categories(),
+        // TopMentor(kategori: kategori),
         spaceHeight(10),
         const PopularCourses(),
-        spaceHeight(10),
-        const Categories(),
+        spaceHeight(50),
       ],
     );
   }
@@ -94,97 +95,113 @@ class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            floating: false,
-            pinned: true,
-            snap: false,
-            backgroundColor: RepoColor().color5,
-            expandedHeight: 200,
-            centerTitle: false,
-            title: UrbanistText().whiteBold('Level-Up', 20),
-            flexibleSpace: FlexibleSpaceBar(
-              background: Container(
-                padding: const EdgeInsets.all(20),
-                margin: const EdgeInsets.only(bottom: 30),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: RefreshIndicator(
+        onRefresh: () async {
+          Provider.of<HomeController>(context, listen: false)
+              .getDataCategories();
+          Provider.of<HomeController>(context, listen: false)
+              .getDataAllCourse();
+        },
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              floating: false,
+              pinned: true,
+              snap: false,
+              backgroundColor: RepoColor().color5,
+              expandedHeight: 200,
+              centerTitle: false,
+              title: UrbanistText().whiteBold('Level-Up', 20),
+              flexibleSpace: FlexibleSpaceBar(
+                background: Container(
+                  padding: const EdgeInsets.all(20),
+                  margin: const EdgeInsets.only(bottom: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          const CircleAvatar(
+                            backgroundImage:
+                                AssetImage('assets/images/profile.png'),
+                            radius: 20,
+                          ),
+                          const SizedBox(
+                            width: 12,
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              UrbanistText()
+                                  .whiteBold("Hi, ${fullName ?? ''}", 18),
+                              UrbanistText()
+                                  .whiteNormal("Let's start learning!", 14),
+                            ],
+                          ),
+                        ],
+                      ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(
+                          Icons.notifications_active,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              bottom: AppBar(
+                toolbarHeight: 80,
+                elevation: 0.0,
+                backgroundColor: RepoColor().color5,
+                title: Column(
                   children: [
-                    Row(
-                      children: [
-                        const CircleAvatar(
-                          backgroundImage:
-                              AssetImage('assets/images/profile.png'),
-                          radius: 20,
+                    Center(
+                      child: TextFormField(
+                        key: Key('search'),
+                        onChanged: (s) {
+                          if (s.length <= 0) {
+                            setState(() {
+                              _searchBoolean = false;
+                            });
+                          } else if (s.length >= 0) {
+                            setState(() {
+                              _searchIndexList = [];
+                              _searchBoolean = true;
+                              for (int i = 0; i < _list.length; i++) {
+                                if (_list[i]
+                                    .toLowerCase()
+                                    .contains(s.toLowerCase())) {
+                                  _searchIndexList.add(i);
+                                }
+                              }
+                            });
+                          }
+                        },
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.search_rounded),
+                          hintStyle: UrbanistText().styleText(16),
+                          hintText: "Search",
+                          fillColor: RepoColor().color6,
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 1),
+                          filled: true,
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide.none),
                         ),
-                        const SizedBox(
-                          width: 12,
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            UrbanistText().whiteBold("Hi, $fullName", 18),
-                            UrbanistText()
-                                .whiteNormal("Let's start learning!", 14),
-                          ],
-                        ),
-                      ],
-                    ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.notifications_active,
-                        color: Colors.white,
                       ),
                     ),
                   ],
                 ),
-              ),
-            ),
-            bottom: AppBar(
-              toolbarHeight: 80,
-              elevation: 0.0,
-              backgroundColor: RepoColor().color5,
-              title: Column(
-                children: [
-                  Center(
-                    child: TextFormField(
-                      key: Key('search'),
-                      onChanged: (s) {
-                        if (s.length <= 0) {
-                          setState(() {
-                            _searchBoolean = false;
-                          });
-                        } else if (s.length >= 0) {
-                          setState(() {
-                            _searchIndexList = [];
-                            _searchBoolean = true;
-                            for (int i = 0; i < _list.length; i++) {
-                              if (_list[i]
-                                  .toLowerCase()
-                                  .contains(s.toLowerCase())) {
-                                _searchIndexList.add(i);
-                              }
-                            }
-                          });
-                        }
-                      },
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.search_rounded),
-                        hintStyle: UrbanistText().styleText(16),
-                        hintText: "Search",
-                        fillColor: RepoColor().color6,
-                        contentPadding: const EdgeInsets.symmetric(vertical: 1),
-                        filled: true,
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide: BorderSide.none),
-                      ),
-                    ),
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(30),
+                    bottomRight: Radius.circular(30),
                   ),
-                ],
+                ),
               ),
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
@@ -193,21 +210,32 @@ class _HomepageState extends State<Homepage> {
                 ),
               ),
             ),
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(30),
-                bottomRight: Radius.circular(30),
+            // Other Sliver Widgets
+            SliverToBoxAdapter(
+              child: Consumer<HomeController>(
+                builder: (BuildContext context, HomeController controller,
+                    Widget? child) {
+                  if (controller.dataState == DataState.loading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (controller.dataState == DataState.error) {
+                    return Center(
+                      child:
+                          UrbanistText().blackBold('Something went wrong!', 14),
+                    );
+                  }
+                  return Container(
+                    padding: const EdgeInsets.all(15.0),
+                    child:
+                        !_searchBoolean ? _defaultwidget() : _searchListView(),
+                  );
+                },
               ),
             ),
-          ),
-          // Other Sliver Widgets
-          SliverToBoxAdapter(
-            child: Container(
-              padding: const EdgeInsets.all(15.0),
-              child: !_searchBoolean ? _defaultwidget() : _searchListView(),
-            ),
-          )
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -224,34 +252,33 @@ class Categories extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             UrbanistText().blackBold('Categories', 20),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  TransisiHalaman(
-                    tipe: PageTransitionType.rightToLeftWithFade,
-                    page: AllCategoriesPage(),
-                  ),
-                );
-              },
-              child: UrbanistText().blackNormal('See All', 18),
-            ),
+            // TextButton(
+            //   onPressed: () {
+            //     Navigator.push(
+            //       context,
+            //       TransisiHalaman(
+            //         tipe: PageTransitionType.rightToLeftWithFade,
+            //         page: AllCategoriesPage(),
+            //       ),
+            //     );
+            //   },
+            //   child: UrbanistText().blackNormal('See All', 18),
+            // ),
           ],
         ),
-        Container(
-          height: 150,
-          child: GridView.builder(
-            shrinkWrap: true,
-            itemCount: homeController.categories.length,
-            itemBuilder: (context, index) {
-              final category = homeController.dataCategory[index];
-              return ItemCategory(data: category);
-            },
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 10.0,
-              childAspectRatio: 3,
-            ),
+        spaceHeight(12),
+        GridView.builder(
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: homeController.categories.length,
+          itemBuilder: (context, index) {
+            final category = homeController.dataCategory[index];
+            return ItemCategory(data: category);
+          },
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 15,
+            childAspectRatio: 2.8,
           ),
         ),
       ],
@@ -266,6 +293,7 @@ class PopularCourses extends StatelessWidget {
   Widget build(BuildContext context) {
     final homeController = Provider.of<HomeController>(context);
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -287,9 +315,10 @@ class PopularCourses extends StatelessWidget {
         ),
         spaceHeight(10),
         Container(
-          height: 260,
+          height: 270,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
+            shrinkWrap: true,
             itemBuilder: (context, index) {
               final course = homeController.courses[index];
               return ItemPopularCourses(

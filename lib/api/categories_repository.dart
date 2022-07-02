@@ -16,7 +16,6 @@ class CategoriesRepository {
       if (response.statusCode == 200) {
         dataCategories = Categories.fromJson(response.data);
         listdatacategories = dataCategories.data;
-        print(listdatacategories);
         return listdatacategories;
       }
     } on DioError catch (e) {

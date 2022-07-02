@@ -31,7 +31,9 @@ Future<void> main() async {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: islogin == false ? const Splashscreen() : const NavigationPage(),
+        home: islogin == false || islogin == null
+            ? const Splashscreen()
+            : const NavigationPage(),
       ),
     ),
   );
