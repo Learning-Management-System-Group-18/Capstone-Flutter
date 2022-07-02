@@ -1,5 +1,8 @@
 import 'package:capstone_flutter/controllers/HomeController.dart';
+import 'package:capstone_flutter/screens/home/course_categories_page.dart';
+import 'package:capstone_flutter/widgets/transition.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
 import '../../constants/icon.dart';

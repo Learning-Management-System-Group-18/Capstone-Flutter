@@ -49,6 +49,7 @@ class Data {
   String? title;
   double? rating;
   String? description;
+  String? level;
   String? urlImage;
   Category? category;
 
@@ -57,6 +58,7 @@ class Data {
       this.title,
       this.rating,
       this.description,
+      this.level,
       this.urlImage,
       this.category});
 
@@ -65,6 +67,7 @@ class Data {
     title = json['title'];
     rating = json['rating'];
     description = json['description'];
+    level = json['level'];
     urlImage = json['url_image'];
     category = json['category'] != null
         ? new Category.fromJson(json['category'])
@@ -77,6 +80,7 @@ class Data {
     data['title'] = this.title;
     data['rating'] = this.rating;
     data['description'] = this.description;
+    data['level'] = this.level;
     data['url_image'] = this.urlImage;
     if (this.category != null) {
       data['category'] = this.category!.toJson();

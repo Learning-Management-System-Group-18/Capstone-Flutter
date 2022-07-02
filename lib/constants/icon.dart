@@ -5,6 +5,7 @@ import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 class RepoIcon {
   final Image user1 =
       const Image(image: Svg('assets/icon/User.svg', size: Size(25, 25)));
+
   final Image user2 =
       const Image(image: Svg('assets/icon/User-1.svg', size: Size(25, 25)));
   final Image email1 =
@@ -69,4 +70,17 @@ class RepoIcon {
     image: Svg('assets/icon/MagnifyingGlass.svg', size: Size(26, 26)),
     color: Colors.white,
   );
+
+  final Image star = const Image(
+    image: Svg('assets/icon/Star.svg', size: Size(19, 19)),
+    color: Color.fromRGBO(253, 184, 8, 1),
+  );
+
+  final Image userPrimary = const Image(
+      image: Svg('assets/icon/User.svg', size: Size(19, 19)),
+      color: Color.fromRGBO(51, 94, 247, 3));
+
+  final Image primaryLock = const Image(
+      image: Svg('assets/icon/LockKey.svg', size: Size(26, 26)),
+      color: Color.fromRGBO(51, 94, 247, 3));
 }

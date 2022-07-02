@@ -71,13 +71,17 @@ class _DetailCoursePageState extends State<DetailCoursePage> {
         Provider.of<HomeController>(context, listen: false)
             .getDataCourseById(idCourse: widget.id);
       });
+      WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+        Provider.of<HomeController>(context, listen: false)
+            .getAllMentorByCourseId(courseId: widget.id);
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final homeController = Provider.of<HomeController>(context);
-    print(homeController.dataDetailCourse?.title);
+    var deskripsi = homeController.dataDetailCourse?.description;
     return Scaffold(
       body: FutureBuilder(
         future: CourseRepository().getCourseById(id: widget.id),
@@ -89,6 +93,12 @@ class _DetailCoursePageState extends State<DetailCoursePage> {
                     snap: _snap,
                     floating: _floating,
                     expandedHeight: 200.0,
+                    leading: IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: RepoIcon().whitearrowCircle,
+                    ),
                     title: UrbanistText().whiteBold(
                         '${homeController.dataDetailCourse?.title}', 20),
                     backgroundColor: RepoColor().color1,
@@ -101,20 +111,38 @@ class _DetailCoursePageState extends State<DetailCoursePage> {
                       ),
                     ),
                   ),
-                  const SliverToBoxAdapter(
-                    child: SizedBox(
-                      height: 10,
-                    ),
-                  ),
                   SliverToBoxAdapter(
                     child: Container(
                       color: Colors.white,
-                      padding: const EdgeInsets.only(left: 16, right: 16),
+                      padding:
+                          const EdgeInsets.only(left: 16, right: 16, top: 10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          UrbanistText().blackBold(
-                              '${homeController.dataDetailCourse?.title}', 24),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              UrbanistText().blackBold(
+                                  '${homeController.dataDetailCourse?.title}',
+                                  24),
+                              Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                color: RepoColor().color8,
+                                margin: EdgeInsets.zero,
+                                elevation: 0.0,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 7.5, top: 5, right: 7.5, bottom: 5),
+                                  child: UrbanistText().primaryNormal(
+                                    '${homeController.dataDetailCourse?.level}',
+                                    12,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                           spaceHeight(5),
                           Card(
                             shape: RoundedRectangleBorder(
@@ -122,11 +150,12 @@ class _DetailCoursePageState extends State<DetailCoursePage> {
                               side: BorderSide(color: RepoColor().color7),
                             ),
                             elevation: 0.0,
+                            margin: EdgeInsets.zero,
                             child: Padding(
                               padding: const EdgeInsets.only(
                                   left: 7.5, top: 5, right: 7.5, bottom: 5),
                               child: UrbanistText().blackNormal(
-                                '${homeController.dataDetailCourse?.category?.title}',
+                                'Category ${homeController.dataDetailCourse?.category?.title}',
                                 14,
                               ),
                             ),
@@ -140,13 +169,10 @@ class _DetailCoursePageState extends State<DetailCoursePage> {
                                 children: [
                                   Row(
                                     children: [
-                                      const Icon(
-                                        Icons.star,
-                                        color: Colors.amber,
-                                      ),
-                                      spaceWidth(10),
+                                      RepoIcon().star,
+                                      spaceWidth(15),
                                       UrbanistText().blackNormal(
-                                          '${homeController.dataDetailCourse?.rating}',
+                                          '${homeController.dataDetailCourse?.rating} Reviews',
                                           16),
                                     ],
                                   ),
@@ -178,7 +204,7 @@ class _DetailCoursePageState extends State<DetailCoursePage> {
                                       RepoIcon().clock1,
                                       spaceWidth(8),
                                       UrbanistText()
-                                          .blackNormal('2,5 Hours', 16),
+                                          .blackNormal('Flexible', 16),
                                     ],
                                   ),
                                 ],
@@ -189,7 +215,13 @@ class _DetailCoursePageState extends State<DetailCoursePage> {
                           const Divider(
                             height: 5,
                           ),
-                          _tabSection(context, lesson),
+                          _tabSection(
+                            context,
+                            lesson,
+                            widget.id,
+                            deskripsi!,
+                          ),
+                          spaceHeight(10),
                         ],
                       ),
                     ),
@@ -228,7 +260,8 @@ class _DetailCoursePageState extends State<DetailCoursePage> {
   }
 }
 
-Widget _tabSection(BuildContext context, List lesson) {
+Widget _tabSection(
+    BuildContext context, List lesson, int courseId, String? deskripsi) {
   return DefaultTabController(
     length: 3,
     child: Column(
@@ -270,8 +303,8 @@ Widget _tabSection(BuildContext context, List lesson) {
           child: TabBarView(
             physics: const NeverScrollableScrollPhysics(),
             children: [
-              const ItemAboutTabBar(),
-              ItemLessonsTabBar(lesson: lesson),
+              ItemAboutTabBar(courseId: courseId, deskripsi: deskripsi!),
+              ItemSectionTabBar(courseId: courseId),
               const ItemReviewTabBar(),
             ],
           ),

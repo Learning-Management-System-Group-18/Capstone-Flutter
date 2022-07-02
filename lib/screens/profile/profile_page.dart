@@ -1,5 +1,3 @@
-import 'dart:io';
-
 // import 'package:capstone_flutter/constants/colors.dart';
 import 'package:capstone_flutter/constants/icon.dart';
 import 'package:capstone_flutter/screens/profile/edit_profile_page.dart';
@@ -25,8 +23,10 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  File? file;
-  String? path;
+  // var file;
+
+  // var path;
+  var fullname, email;
 
   logOut() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -44,19 +44,22 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  profilePath() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    path = pref.getString("imageProfile");
+  getDataPref() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      file = File(path ?? '');
+      // path = prefs.getString("imageProfile");
+      fullname = prefs.getString('fullName');
+      email = prefs.getString('email');
+      // file = File(path.toString());
     });
   }
 
   @override
   void initState() {
     super.initState();
-    profilePath();
-    setState(() {});
+    getDataPref();
+    // setState(() {});
   }
 
   @override
@@ -80,9 +83,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       backgroundImage: AssetImage('assets/images/profile.png'),
                     ),
                     spaceHeight(10),
-                    UrbanistText().blackBold('Nirmala Azalea', 18),
+                    UrbanistText().blackBold('${fullname}', 18),
                     spaceHeight(5),
-                    UrbanistText().blackNormal('nirmala@gmail.com', 16),
+                    UrbanistText().blackNormal('${email}', 16),
                   ],
                 ),
               ),
@@ -206,6 +209,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ),
                     ),
+                    spaceHeight(50),
                   ],
                 ),
               ),
