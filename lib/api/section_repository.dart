@@ -12,7 +12,6 @@ class SectionRepository {
     var parameter = {
       "courseId": courseId,
       "page": 1,
-      "size": 5,
     };
     try {
       Response response = await apiService.dio

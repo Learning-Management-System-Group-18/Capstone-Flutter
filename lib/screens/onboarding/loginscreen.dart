@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants/icon.dart';
 import '../../controllers/AuthController.dart';
@@ -22,6 +23,14 @@ class _LoginscreenState extends State<Loginscreen> {
 
   late TextEditingController emailController;
   late TextEditingController passwordController;
+  String? token;
+  getDataPref() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      token = prefs.getString('token');
+    });
+  }
 
   @override
   void initState() {
@@ -36,6 +45,7 @@ class _LoginscreenState extends State<Loginscreen> {
   @override
   Widget build(BuildContext context) {
     final authController = Provider.of<AuthController>(context);
+    print('token di login : $token');
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -90,6 +100,7 @@ class _LoginscreenState extends State<Loginscreen> {
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide.none),
                     ),
+                    validator: (email) => authController.isEmailValid(email!),
                   ),
                   const SizedBox(
                     height: 24,
@@ -129,6 +140,8 @@ class _LoginscreenState extends State<Loginscreen> {
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide.none),
                     ),
+                    validator: (password) =>
+                        authController.isPasswordValid(password!),
                   ),
                   Align(
                     alignment: Alignment.centerRight,

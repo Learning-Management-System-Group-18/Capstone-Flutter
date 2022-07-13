@@ -11,25 +11,30 @@ Future AlertSucces(BuildContext context, String text) {
   );
 }
 
-Future EnrollSucces(BuildContext context, String text) {
-  return CoolAlert.show(
-      context: context,
-      type: CoolAlertType.success,
-      borderRadius: 25,
-      title: 'Enroll Course Successful!',
-      backgroundColor: Colors.white,
-      confirmBtnColor: RepoColor().color1,
-      confirmBtnText: 'View Course',
-      text: text,
-      confirmBtnTextStyle:
-          const TextStyle(fontSize: 16, fontFamily: 'Urbanist', color: Colors.white));
-}
-
 Future AlertInfo(BuildContext context, String text) {
   return CoolAlert.show(
     context: context,
     type: CoolAlertType.info,
     text: text,
+  );
+}
+
+Future EnrollSucces(BuildContext context, String text, dynamic action) {
+  return CoolAlert.show(
+    context: context,
+    type: CoolAlertType.success,
+    borderRadius: 25,
+    title: 'Enroll Course Successful!',
+    backgroundColor: Colors.white,
+    confirmBtnColor: RepoColor().color1,
+    confirmBtnText: 'View Course',
+    text: text,
+    confirmBtnTextStyle: const TextStyle(
+      fontSize: 16,
+      fontFamily: 'Urbanist',
+      color: Colors.white,
+    ),
+    onConfirmBtnTap: action,
   );
 }
 

@@ -9,7 +9,7 @@ class CategoriesRepository {
   Future<List<Data>?> getDataCategories() async {
     Categories? dataCategories;
 
-    var parameter = {"page": 1, "size": 5};
+    var parameter = {"page": 1};
     try {
       Response response = await apiService.dio
           .get(apiService.baseUrl + 'categories', queryParameters: parameter);

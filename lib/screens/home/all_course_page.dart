@@ -1,8 +1,10 @@
+import 'package:capstone_flutter/api/course_repository.dart';
 import 'package:capstone_flutter/controllers/HomeController.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../constants/icon.dart';
+import '../../models/course_model.dart' as m_course;
 import '../../widgets/item_listview.dart';
 import '../../widgets/text.dart';
 
@@ -14,38 +16,12 @@ class AllCoursePage extends StatefulWidget {
 }
 
 class _AllCoursePageState extends State<AllCoursePage> {
-  final List kategori = [
-    "Category 1sdsdsd",
-    "Category 2",
-    "Category 3",
-    "Category 4",
-    "Category 5",
-    "Category 6",
-    "Category 3",
-    "Category 4",
-    "Category 5",
-    "Category 6",
-    "Category 3",
-    "Category 4",
-    "Category 5",
-    "Category 6",
-  ];
-  TextEditingController _searchQueryController = TextEditingController();
   bool _searchBoolean = false;
-  List<int> _searchIndexList = [];
-
-  final List<String> _list = [
-    'English Textbook',
-    'Japanese Textbook',
-    'English Vocabulary',
-    'Japanese Vocabulary'
-  ];
+  String? value;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    _searchQueryController = TextEditingController();
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       Provider.of<HomeController>(context, listen: false).getDataAllCourse();
     });
@@ -55,12 +31,7 @@ class _AllCoursePageState extends State<AllCoursePage> {
     return TextField(
       onChanged: (String s) {
         setState(() {
-          _searchIndexList = [];
-          for (int i = 0; i < _list.length; i++) {
-            if (_list[i].toLowerCase().contains(s.toLowerCase())) {
-              _searchIndexList.add(i);
-            }
-          }
+          value = s;
         });
       },
       autofocus: true,
@@ -82,22 +53,42 @@ class _AllCoursePageState extends State<AllCoursePage> {
     );
   }
 
-  Widget _searchListView() {
-    return ListView.builder(
-        shrinkWrap: true,
-        itemCount: _searchIndexList.length,
-        itemBuilder: (context, index) {
-          index = _searchIndexList[index];
-          return Card(child: ListTile(title: Text(_list[index])));
-        });
+  Widget _searchListView(String? value) {
+    print('value : $value');
+    return FutureBuilder<List<m_course.Data>?>(
+      future: CourseRepository().postSearchCourse(value),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasData) {
+            return ListView.builder(
+              padding: EdgeInsets.zero,
+              shrinkWrap: true,
+              itemCount: snapshot.data?.length,
+              itemBuilder: (context, index) {
+                final data = snapshot.data?[index];
+                return ItemAllCourse(data: data!);
+              },
+            );
+          } else {
+            return Center(
+              child: UrbanistText().blackNormal('Data not found!', 14),
+            );
+          }
+        } else {
+          return Center(
+            child: UrbanistText().blackNormal('Plese wait...', 14),
+          );
+        }
+      },
+    );
   }
 
   Widget _defaultListView(HomeController homeController) {
-    var size = MediaQuery.of(context).size;
+    // var size = MediaQuery.of(context).size;
 
-    /*24 is for notification bar on Android*/
-    final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
-    final double itemWidth = size.width / 2;
+    // /*24 is for notification bar on Android*/
+    // final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
+    // final double itemWidth = size.width / 2;
 
     return ListView.builder(
       itemCount: homeController.courses.length,
@@ -133,7 +124,6 @@ class _AllCoursePageState extends State<AllCoursePage> {
                     setState(
                       () {
                         _searchBoolean = true;
-                        _searchIndexList = [];
                       },
                     );
                   },
@@ -163,7 +153,7 @@ class _AllCoursePageState extends State<AllCoursePage> {
             Expanded(
               child: !_searchBoolean
                   ? _defaultListView(homeController)
-                  : _searchListView(),
+                  : _searchListView(value),
             ),
           ],
         ),

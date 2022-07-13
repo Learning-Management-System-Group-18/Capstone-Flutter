@@ -1,5 +1,7 @@
+import 'package:capstone_flutter/api/course_repository.dart';
 import 'package:capstone_flutter/constants/colors.dart';
 import 'package:capstone_flutter/constants/state.dart';
+import 'package:capstone_flutter/models/course_model.dart' as m_course;
 import 'package:capstone_flutter/screens/home/all_categories_page.dart';
 import 'package:capstone_flutter/screens/home/all_course_page.dart';
 import 'package:capstone_flutter/screens/home/all_mentor_page.dart';
@@ -8,6 +10,7 @@ import 'package:capstone_flutter/widgets/space.dart';
 import 'package:capstone_flutter/widgets/transition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,32 +27,33 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   bool _searchBoolean = false;
-  List<int> _searchIndexList = [];
-
-  List<String> _list = [
-    'English Textbook',
-    'Japanese Textbook',
-    'English Vocabulary',
-    'Japanese Vocabulary'
-  ];
-
-  final List kategori = [
-    "Category 1",
-    "Category 2",
-    "Category 3",
-    "Category 4",
-    "Category 5",
-    "Category 6",
-  ];
-
-  Widget _searchListView() {
-    return ListView.builder(
-      padding: EdgeInsets.zero,
-      shrinkWrap: true,
-      itemCount: _searchIndexList.length,
-      itemBuilder: (context, index) {
-        index = _searchIndexList[index];
-        return Card(child: ListTile(title: Text(_list[index])));
+  String? value;
+  Widget _searchListView(String value) {
+    print('value : $value');
+    return FutureBuilder<List<m_course.Data>?>(
+      future: CourseRepository().postSearchCourse(value),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasData) {
+            return ListView.builder(
+              padding: EdgeInsets.zero,
+              shrinkWrap: true,
+              itemCount: snapshot.data?.length,
+              itemBuilder: (context, index) {
+                final data = snapshot.data?[index];
+                return ItemAllCourse(data: data!);
+              },
+            );
+          } else {
+            return Center(
+              child: UrbanistText().blackNormal('Data not found!', 14),
+            );
+          }
+        } else {
+          return Center(
+            child: UrbanistText().blackNormal('Plese wait...', 14),
+          );
+        }
       },
     );
   }
@@ -68,12 +72,13 @@ class _HomepageState extends State<Homepage> {
   }
 
   String? fullName;
-
+  String? token;
   getDataPref() async {
     WidgetsFlutterBinding.ensureInitialized();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       fullName = prefs.getString('fullName');
+      token = prefs.getString('token');
     });
   }
 
@@ -81,6 +86,7 @@ class _HomepageState extends State<Homepage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    getDataPref();
     if (WidgetsBinding.instance != null) {
       WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
         Provider.of<HomeController>(context, listen: false).getDataCategories();
@@ -88,19 +94,24 @@ class _HomepageState extends State<Homepage> {
       WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
         Provider.of<HomeController>(context, listen: false).getDataAllCourse();
       });
+      WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+        Provider.of<HomeController>(context, listen: false).getAllDataUser();
+      });
     }
-    getDataPref();
   }
 
   @override
   Widget build(BuildContext context) {
+    final homeController = Provider.of<HomeController>(context);
+    String? imageUrl = homeController.dataProfileUser?.urlImage;
     return Scaffold(
       body: RefreshIndicator(
         onRefresh: () async {
           Provider.of<HomeController>(context, listen: false)
               .getDataCategories();
           Provider.of<HomeController>(context, listen: false)
-              .getDataAllCourse();
+              .getDataAllCoursePopular();
+          Provider.of<HomeController>(context, listen: false).getAllDataUser();
         },
         child: CustomScrollView(
           slivers: [
@@ -111,7 +122,9 @@ class _HomepageState extends State<Homepage> {
               backgroundColor: RepoColor().color5,
               expandedHeight: 200,
               centerTitle: false,
-              title: UrbanistText().whiteBold('Level-Up', 20),
+              title: const Image(
+                image: Svg('assets/images/titleApp.svg', size: Size(80, 80)),
+              ),
               flexibleSpace: FlexibleSpaceBar(
                 background: Container(
                   padding: const EdgeInsets.all(20),
@@ -121,33 +134,41 @@ class _HomepageState extends State<Homepage> {
                     children: [
                       Row(
                         children: [
-                          const CircleAvatar(
-                            backgroundImage:
-                                AssetImage('assets/images/profile.png'),
-                            radius: 20,
-                          ),
-                          const SizedBox(
-                            width: 12,
-                          ),
+                          if (imageUrl == null) ...[
+                            const CircleAvatar(
+                                radius: 20,
+                                backgroundImage:
+                                    AssetImage('assets/images/profile.png')),
+                          ] else ...[
+                            CircleAvatar(
+                                radius: 20.0,
+                                backgroundImage: Image.network(
+                                  imageUrl,
+                                  height: 200,
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
+                                ).image),
+                          ],
+                          spaceWidth(10),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              UrbanistText()
-                                  .whiteBold("Hi, ${fullName ?? ''}", 18),
+                              UrbanistText().whiteBold(
+                                  "Hi, ${fullName ?? 'Welcome'}", 18),
                               UrbanistText()
                                   .whiteNormal("Let's start learning!", 14),
                             ],
                           ),
                         ],
                       ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.notifications_active,
-                          color: Colors.white,
-                        ),
-                      ),
+                      // IconButton(
+                      //   onPressed: () {},
+                      //   icon: const Icon(
+                      //     Icons.notifications_active,
+                      //     color: Colors.white,
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
@@ -162,21 +183,15 @@ class _HomepageState extends State<Homepage> {
                       child: TextFormField(
                         key: Key('search'),
                         onChanged: (s) {
+                          this.value = s;
                           if (s.length <= 0) {
                             setState(() {
                               _searchBoolean = false;
                             });
                           } else if (s.length >= 0) {
                             setState(() {
-                              _searchIndexList = [];
                               _searchBoolean = true;
-                              for (int i = 0; i < _list.length; i++) {
-                                if (_list[i]
-                                    .toLowerCase()
-                                    .contains(s.toLowerCase())) {
-                                  _searchIndexList.add(i);
-                                }
-                              }
+                              value = s;
                             });
                           }
                         },
@@ -216,8 +231,9 @@ class _HomepageState extends State<Homepage> {
                 builder: (BuildContext context, HomeController controller,
                     Widget? child) {
                   if (controller.dataState == DataState.loading) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
+                    return Center(
+                      heightFactor: MediaQuery.of(context).size.height * 0.015,
+                      child: const CircularProgressIndicator(),
                     );
                   }
                   if (controller.dataState == DataState.error) {
@@ -228,8 +244,9 @@ class _HomepageState extends State<Homepage> {
                   }
                   return Container(
                     padding: const EdgeInsets.all(15.0),
-                    child:
-                        !_searchBoolean ? _defaultwidget() : _searchListView(),
+                    child: !_searchBoolean
+                        ? _defaultwidget()
+                        : _searchListView(value!),
                   );
                 },
               ),
@@ -293,7 +310,6 @@ class PopularCourses extends StatelessWidget {
   Widget build(BuildContext context) {
     final homeController = Provider.of<HomeController>(context);
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -314,18 +330,17 @@ class PopularCourses extends StatelessWidget {
           ],
         ),
         spaceHeight(10),
-        Container(
-          height: 270,
+        SizedBox(
+          height: 325,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            shrinkWrap: true,
             itemBuilder: (context, index) {
-              final course = homeController.courses[index];
+              final course = homeController.coursesPopular[index];
               return ItemPopularCourses(
                 data: course,
               );
             },
-            itemCount: homeController.courses.length,
+            itemCount: homeController.coursesPopular.length,
           ),
         ),
       ],

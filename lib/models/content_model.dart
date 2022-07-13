@@ -88,67 +88,85 @@ class Data {
 }
 
 class Video {
+  int? id;
   String? title;
   String? description;
   String? link;
+  bool? completed;
 
-  Video({this.title, this.description, this.link});
+  Video({this.id, this.title, this.description, this.link, this.completed});
 
   Video.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     title = json['title'];
     description = json['description'];
     link = json['link'];
+    completed = json['completed'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
     data['title'] = this.title;
     data['description'] = this.description;
     data['link'] = this.link;
+    data['completed'] = this.completed;
     return data;
   }
 }
 
 class Slide {
+  int? id;
   String? title;
   String? description;
   String? link;
+  bool? completed;
 
-  Slide({this.title, this.description, this.link});
+  Slide({this.id, this.title, this.description, this.link, this.completed});
 
   Slide.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     title = json['title'];
     description = json['description'];
     link = json['link'];
+    completed = json['completed'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
     data['title'] = this.title;
     data['description'] = this.description;
     data['link'] = this.link;
+    data['completed'] = this.completed;
     return data;
   }
 }
 
 class Quiz {
+  int? id;
   String? title;
   String? description;
   String? link;
+  bool? completed;
 
-  Quiz({this.title, this.description, this.link});
+  Quiz({this.id, this.title, this.description, this.link, this.completed});
 
   Quiz.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     title = json['title'];
     description = json['description'];
     link = json['link'];
+    completed = json['completed'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
     data['title'] = this.title;
     data['description'] = this.description;
     data['link'] = this.link;
+    data['completed'] = this.completed;
     return data;
   }
 }

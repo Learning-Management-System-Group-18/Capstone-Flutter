@@ -76,6 +76,25 @@ class RepoIcon {
     color: Color.fromRGBO(253, 184, 8, 1),
   );
 
+  final Image starReview = const Image(
+    image: Svg('assets/icon/Star.svg', size: Size(20, 19)),
+    color: Color.fromRGBO(253, 184, 8, 1),
+  );
+
+  final Image primarystarReview = const Image(
+    image: Svg('assets/icon/Star.svg', size: Size(20, 19)),
+    color: Color.fromRGBO(51, 94, 247, 3),
+  );
+
+  final Image whitestarReview = const Image(
+      image: Svg('assets/icon/Star.svg', size: Size(20, 19)),
+      color: Colors.white);
+
+  final Image star15 = const Image(
+    image: Svg('assets/icon/Star.svg', size: Size(15, 15)),
+    color: Color.fromRGBO(253, 184, 8, 1),
+  );
+
   final Image userPrimary = const Image(
       image: Svg('assets/icon/User.svg', size: Size(19, 19)),
       color: Color.fromRGBO(51, 94, 247, 3));
@@ -83,4 +102,27 @@ class RepoIcon {
   final Image primaryLock = const Image(
       image: Svg('assets/icon/LockKey.svg', size: Size(26, 26)),
       color: Color.fromRGBO(51, 94, 247, 3));
+
+  final Image primaryPPT = const Image(
+    image: Svg('assets/icon/FilePpt.svg', size: Size(25, 25)),
+    color: Color.fromRGBO(51, 94, 247, 3),
+  );
+
+  final Image primaryExam = const Image(
+    image: Svg('assets/icon/Exam.svg', size: Size(25, 25)),
+    color: Color.fromRGBO(51, 94, 247, 3),
+  );
+
+  final Image primaryChecklist = const Image(
+    image: Svg('assets/icon/CircleWavyCheck.svg', size: Size(25, 25)),
+    color: Color.fromRGBO(51, 94, 247, 3),
+  );
+
+  final Image elipse38 = const Image(
+    image: Svg('assets/icon/Ellipse 38.svg', size: Size(6, 6)),
+    color: Color.fromRGBO(255, 136, 25, 1),
+  );
+  final Image requestCourse = const Image(
+      image: Svg('assets/icon/ChalkboardTeacher.svg', size: Size(30, 30)),
+      color: Colors.white);
 }

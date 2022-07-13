@@ -8,8 +8,8 @@ PageTransition TransisiHalaman(
   return PageTransition(
     type: tipe,
     alignment: align,
-    duration: const Duration(milliseconds: 700),
-    reverseDuration: const Duration(milliseconds: 700),
+    duration: const Duration(milliseconds: 300),
+    reverseDuration: const Duration(milliseconds: 300),
     child: page,
   );
 }
