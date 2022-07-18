@@ -42,10 +42,22 @@ class _LoginscreenState extends State<Loginscreen> {
 
   final _formKey = GlobalKey<FormState>();
 
+  bool isselect = false;
+
   @override
   Widget build(BuildContext context) {
     final authController = Provider.of<AuthController>(context);
-    print('token di login : $token');
+    if (emailController.text.length != 0 ||
+        passwordController.text.length != 0) {
+      setState(() {
+        isselect = true;
+      });
+    } else {
+      setState(() {
+        isselect = false;
+      });
+    }
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -83,7 +95,11 @@ class _LoginscreenState extends State<Loginscreen> {
                   TextFormField(
                     key: const Key('email'),
                     style: UrbanistText().styleText(16),
-                    controller: emailController,
+                    onChanged: (val) {
+                      setState(() {
+                        emailController.text = val;
+                      });
+                    },
                     decoration: InputDecoration(
                       focusedBorder: OutlineInputBorder(
                         borderSide:
@@ -111,7 +127,11 @@ class _LoginscreenState extends State<Loginscreen> {
                     obscureText: !passwordVisible!,
                     enableSuggestions: false,
                     autocorrect: false,
-                    controller: passwordController,
+                    onChanged: (val) {
+                      setState(() {
+                        passwordController.text = val;
+                      });
+                    },
                     decoration: InputDecoration(
                       focusedBorder: OutlineInputBorder(
                         borderSide:
@@ -143,20 +163,20 @@ class _LoginscreenState extends State<Loginscreen> {
                     validator: (password) =>
                         authController.isPasswordValid(password!),
                   ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        'Forgot the password?',
-                        textAlign: TextAlign.right,
-                        style: GoogleFonts.urbanist(
-                          fontSize: 14,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ),
+                  // Align(
+                  //   alignment: Alignment.centerRight,
+                  //   child: TextButton(
+                  //     onPressed: () {},
+                  //     child: Text(
+                  //       'Forgot the password?',
+                  //       textAlign: TextAlign.right,
+                  //       style: GoogleFonts.urbanist(
+                  //         fontSize: 14,
+                  //         color: Colors.black,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   const SizedBox(
                     height: 40,
                   ),
@@ -167,13 +187,17 @@ class _LoginscreenState extends State<Loginscreen> {
                             passwordController.text);
                       }
                     },
-                    child: UrbanistText().whiteBold("Sign In", 16),
+                    child: isselect == false
+                        ? UrbanistText().primaryBold('Sign In', 16)
+                        : UrbanistText().whiteBold("Sign In", 16),
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
-                      primary: RepoColor().color1,
+                      primary:
+                          isselect == false ? Colors.white : RepoColor().color1,
                       minimumSize: const Size.fromHeight(56),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25.0),
+                        side: BorderSide(color: RepoColor().color1, width: 1),
                       ),
                     ),
                   ),

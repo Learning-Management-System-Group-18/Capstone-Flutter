@@ -125,4 +125,13 @@ class RepoIcon {
   final Image requestCourse = const Image(
       image: Svg('assets/icon/ChalkboardTeacher.svg', size: Size(30, 30)),
       color: Colors.white);
+
+  final Image iconExpand = const Image(
+    image: Svg('assets/icon/CaretDown.svg', size: Size(6, 6)),
+    color: Color.fromRGBO(51, 94, 247, 3),
+  );
+
+  final Image camera = const Image(
+      image: Svg('assets/icon/Camera.svg', size: Size(20, 19)),
+      color: Colors.white);
 }

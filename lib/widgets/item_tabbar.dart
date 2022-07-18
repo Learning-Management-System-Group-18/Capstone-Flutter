@@ -17,7 +17,6 @@ import 'package:capstone_flutter/widgets/text.dart';
 import 'package:capstone_flutter/widgets/transition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
-import 'package:group_button/group_button.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';

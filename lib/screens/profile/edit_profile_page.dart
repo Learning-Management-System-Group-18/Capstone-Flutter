@@ -33,7 +33,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   DateTime _dueDate = DateTime.now();
   final currentDate = DateTime.now();
-
+  final _keyEdit = GlobalKey<FormState>();
   @override
   void initState() {
     // TODO: implement initState
@@ -77,6 +77,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           decoration: const BoxDecoration(color: Colors.white),
           padding: const EdgeInsets.all(20),
           child: Form(
+            key: _keyEdit,
             child: Column(
               children: [
                 imageprofile(context, image_user),
@@ -114,7 +115,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ],
                 ),
                 spaceHeight(10),
-                widgetDate(context),
+                widgetDate(context, '${data?.dateOfBirth}'),
                 spaceHeight(20),
                 TextFormField(
                   key: const Key('jenis kelamin'),
@@ -144,6 +145,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     focusColor: RepoColor().color4,
                     filled: true,
                     isDense: true,
+                    fillColor: RepoColor().colorFill,
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide.none),
@@ -162,6 +164,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     hintText: "Address",
                     focusColor: RepoColor().color4,
                     filled: true,
+                    fillColor: RepoColor().colorFill,
                     isDense: true,
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -182,12 +185,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       bottomNavigationBar: Container(
         height: 100,
         padding: const EdgeInsets.all(20),
-        decoration: const BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30),
-              topRight: Radius.circular(30),
-            ),
-            color: Colors.white),
+        color: Colors.white,
         child: ElevatedButton(
           onPressed: () {
             final birth = data?.dateOfBirth;
@@ -207,7 +205,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   birth,
                   genderController.text,
                   addressController.text,
-                  file as File);
+                  file);
             } else if (dateController.text != '' || file == null) {
               profileController.updateProfileWithImage(
                   context,
@@ -284,17 +282,19 @@ class _EditProfilePageState extends State<EditProfilePage> {
       hintText: hint,
       focusColor: RepoColor().color4,
       filled: true,
+      fillColor: RepoColor().colorFill,
       isDense: true,
       border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10), borderSide: BorderSide.none),
     );
   }
 
-  Widget widgetDate(BuildContext context) {
+  Widget widgetDate(BuildContext context, String birth) {
+    String selectdate;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TextField(
+        TextFormField(
           controller: dateController,
           style: UrbanistText().styleText(16),
           focusNode: AlwaysDisabledFocusNode(),
@@ -307,6 +307,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             hintText: "dd-mm-yyyy",
             focusColor: RepoColor().color4,
             filled: true,
+            fillColor: RepoColor().colorFill,
             isDense: true,
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
@@ -344,7 +345,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
           const CircleAvatar(
               radius: 70.0,
               backgroundImage: AssetImage('assets/images/profile.png')),
-        ] else if (file != null) ...[
+        ],
+        if (file != null) ...[
           CircleAvatar(
               radius: 70.0,
               backgroundImage: Image.file(
@@ -357,25 +359,25 @@ class _EditProfilePageState extends State<EditProfilePage> {
           CircleAvatar(
               radius: 70.0,
               backgroundImage: Image.network(
-                urlImage,
+                urlImage!,
                 height: 200,
                 width: double.infinity,
                 fit: BoxFit.cover,
               ).image),
         ],
         Positioned(
-          bottom: 15.0,
-          right: 15.0,
+          bottom: 3.0,
+          right: 3.0,
           child: InkWell(
             onTap: () {
               _pickFile();
             },
             child: CircleAvatar(
               backgroundColor: Colors.white,
-              child: Icon(
-                Icons.camera_alt_outlined,
-                color: RepoColor().color1,
-                size: 28.0,
+              child: CircleAvatar(
+                backgroundColor: RepoColor().color1,
+                radius: 15,
+                child: RepoIcon().camera,
               ),
             ),
           ),

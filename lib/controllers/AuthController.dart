@@ -21,7 +21,7 @@ class AuthController extends ChangeNotifier {
     if (name.isEmpty) {
       return 'Username cannot be empty!';
     }
-    if (name.length >= 3 || name.length <= 30) {
+    if (name.length >= 3 && name.length <= 30) {
       _nama = name;
       return null;
     } else if (name.length < 3) {
@@ -48,7 +48,7 @@ class AuthController extends ChangeNotifier {
     if (password.isEmpty) {
       return 'Password cannot be empty!';
     }
-    if (password.length >= 8 || password.length <= 16) {
+    if (password.length >= 8 && password.length <= 16) {
       _password = password;
       return null;
     } else if (password.length < 8) {
@@ -93,13 +93,14 @@ class AuthController extends ChangeNotifier {
   cekLogin(BuildContext context, String email, String password) async {
     final login = await _authRepository.userLogin(email, password);
     print('login = $login');
-    var token = login?.data?.token;
-    var fullName = login?.data?.fullName;
-    if (login == null) {
+
+    if (login == false) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Account not found!')),
+        const SnackBar(content: Text('Email or password is incorrect!')),
       );
     } else {
+      var token = login?.data?.token;
+      var fullName = login?.data?.fullName;
       if (login.status?.code == "BAD_CREDENTIALS") {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Email or password is incorrect!')),

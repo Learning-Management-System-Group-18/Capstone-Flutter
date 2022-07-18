@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:capstone_flutter/constants/colors.dart';
 import 'package:capstone_flutter/controllers/CourseController.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:pod_player/pod_player.dart';
 import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';

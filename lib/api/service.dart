@@ -1,5 +1,5 @@
 import 'package:capstone_flutter/screens/onboarding/loginscreen.dart';
-import 'package:capstone_flutter/screens/onboarding/splashscreen.dart';
+import 'package:capstone_flutter/screens/onboarding/boardingscreen.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';

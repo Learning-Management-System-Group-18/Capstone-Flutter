@@ -218,13 +218,8 @@ class _DetailCoursePageState extends State<DetailCoursePage> {
       ),
       bottomNavigationBar: Container(
         height: 100,
+        color: Colors.white,
         padding: const EdgeInsets.all(20),
-        decoration: const BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30),
-              topRight: Radius.circular(30),
-            ),
-            color: Colors.white),
         child: ElevatedButton(
           onPressed: () {
             homeController.createOrderCourse(

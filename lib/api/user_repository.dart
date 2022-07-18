@@ -114,29 +114,31 @@ class UserRepository {
     return dataupdateUser;
   }
 
-  Future<m_user_update.UserUpdate?> updateImageUser(final File file) async {
+  Future<m_user_update.UserUpdate?> updateImageUser(File? file) async {
     String token = await token_read();
     try {
       print(token);
-      String fileName = file.path.split('/').last;
-      FormData formData = FormData.fromMap({
-        'image': await MultipartFile.fromFile(file.path, filename: fileName)
-      });
-
-      Response response = await apiService.dio.put(
-        apiService.baseUrl + 'auth/profile/image',
-        options: Options(
-          headers: {
-            HttpHeaders.contentTypeHeader: "application/json",
-            "Authorization": "Bearer $token",
-          },
-        ),
-        data: formData,
-      );
-      print('response : ${response.statusCode}');
-      if (response.statusCode == 200) {
-        dataupdateImage = m_user_update.UserUpdate.fromJson(response.data);
-        return dataupdateImage;
+      FormData formData;
+      if (file != null) {
+        String fileName = file.path.split('/').last;
+        formData = FormData.fromMap({
+          'image': await MultipartFile.fromFile(file.path, filename: fileName)
+        });
+        Response response = await apiService.dio.put(
+          apiService.baseUrl + 'auth/profile/image',
+          options: Options(
+            headers: {
+              HttpHeaders.contentTypeHeader: "application/json",
+              "Authorization": "Bearer $token",
+            },
+          ),
+          data: formData,
+        );
+        print('response : ${response.statusCode}');
+        if (response.statusCode == 200) {
+          dataupdateImage = m_user_update.UserUpdate.fromJson(response.data);
+          return dataupdateImage;
+        }
       }
     } on DioError catch (e) {
       print(e);

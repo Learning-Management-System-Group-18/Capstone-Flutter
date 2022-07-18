@@ -17,18 +17,40 @@ class Registerscreen extends StatefulWidget {
 }
 
 class _RegisterscreenState extends State<Registerscreen> {
+  late TextEditingController usernameController;
+  late TextEditingController emailController;
+  late TextEditingController passwordController;
+
   bool? passwordVisible;
   @override
   void initState() {
     super.initState();
+    usernameController = TextEditingController();
+    emailController = TextEditingController();
+    passwordController = TextEditingController();
     passwordVisible = false;
   }
 
   final _formKey = GlobalKey<FormState>();
 
+  bool isselect = false;
+
   @override
   Widget build(BuildContext context) {
     final authController = Provider.of<AuthController>(context);
+
+    if (usernameController.text.length != 0 ||
+        emailController.text.length != 0 ||
+        passwordController.text.length != 0) {
+      setState(() {
+        isselect = true;
+      });
+    } else {
+      setState(() {
+        isselect = false;
+      });
+    }
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -65,6 +87,11 @@ class _RegisterscreenState extends State<Registerscreen> {
                   spaceHeight(38),
                   TextFormField(
                     key: const Key('username'),
+                    onChanged: (val) {
+                      setState(() {
+                        usernameController.text = val;
+                      });
+                    },
                     style: UrbanistText().styleText(16),
                     decoration: InputDecoration(
                       prefixIcon: RepoIcon().user2,
@@ -84,6 +111,11 @@ class _RegisterscreenState extends State<Registerscreen> {
                   TextFormField(
                     key: const Key('email'),
                     style: UrbanistText().styleText(16),
+                    onChanged: (val) {
+                      setState(() {
+                        emailController.text = val;
+                      });
+                    },
                     decoration: InputDecoration(
                       prefixIcon: RepoIcon().email1,
                       hintStyle: GoogleFonts.urbanist(fontSize: 16),
@@ -103,6 +135,11 @@ class _RegisterscreenState extends State<Registerscreen> {
                     style: UrbanistText().styleText(16),
                     obscureText: !passwordVisible!,
                     enableSuggestions: false,
+                    onChanged: (val) {
+                      setState(() {
+                        passwordController.text = val;
+                      });
+                    },
                     autocorrect: false,
                     decoration: InputDecoration(
                       prefixIcon: RepoIcon().lock,
@@ -137,14 +174,18 @@ class _RegisterscreenState extends State<Registerscreen> {
                         authController.isvalid(context);
                       }
                     },
-                    child: UrbanistText().whiteBold('Sign Up', 16),
+                    child: isselect == false
+                        ? UrbanistText().primaryBold('Sign Up', 16)
+                        : UrbanistText().whiteBold("Sign Up", 16),
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
-                      primary: RepoColor().color1,
+                      primary:
+                          isselect == false ? Colors.white : RepoColor().color1,
                       minimumSize: const Size.fromHeight(56),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                      ),
+                          borderRadius: BorderRadius.circular(25.0),
+                          side: BorderSide(
+                              color: RepoColor().color1, width: 1.0)),
                     ),
                   ),
                   const SizedBox(

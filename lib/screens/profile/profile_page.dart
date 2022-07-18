@@ -93,14 +93,6 @@ class _ProfilePageState extends State<ProfilePage> {
                           backgroundImage:
                               AssetImage('assets/images/profile.png')),
                     ] else ...[
-                      // CircleAvatar(
-                      //     radius: 70.0,
-                      //     backgroundImage: Image.network(
-                      //       imageUrl,
-                      //       height: 200,
-                      //       width: double.infinity,
-                      //       fit: BoxFit.cover,
-                      //     ).image),
                       ClipOval(
                         child: CachedNetworkImage(
                           height: 150,
@@ -119,11 +111,11 @@ class _ProfilePageState extends State<ProfilePage> {
                     ],
                     spaceHeight(10),
                     UrbanistText().blackBold(
-                        '${profileController.dataProfileUser?.user?.fullName}',
+                        '${profileController.dataProfileUser?.user?.fullName ?? ''}',
                         18),
                     spaceHeight(5),
                     UrbanistText().blackNormal(
-                        '${profileController.dataProfileUser?.user?.email}',
+                        '${profileController.dataProfileUser?.user?.email ?? ''}',
                         16),
                   ],
                 ),
@@ -219,20 +211,20 @@ class _ProfilePageState extends State<ProfilePage> {
                         showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
-                            content: const Text('Yakin ingin keluar?'),
+                            content: const Text('Are you sure want to Logout?'),
                             actions: [
                               TextButton(
                                 onPressed: () {
                                   Navigator.pop(context);
                                 },
-                                child: const Text('Batal'),
+                                child: const Text('Cancel'),
                               ),
                               TextButton(
                                 onPressed: () {
                                   logOut();
                                   Navigator.pop(context);
                                 },
-                                child: const Text('Keluar'),
+                                child: const Text('Yes'),
                               )
                             ],
                           ),

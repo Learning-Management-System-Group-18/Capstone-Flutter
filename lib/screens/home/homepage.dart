@@ -105,6 +105,7 @@ class _HomepageState extends State<Homepage> {
     final homeController = Provider.of<HomeController>(context);
     String? imageUrl = homeController.dataProfileUser?.urlImage;
     return Scaffold(
+      backgroundColor: Colors.white,
       body: RefreshIndicator(
         onRefresh: () async {
           Provider.of<HomeController>(context, listen: false)

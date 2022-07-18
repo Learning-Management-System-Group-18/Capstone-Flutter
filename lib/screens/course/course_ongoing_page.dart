@@ -219,143 +219,140 @@ class _CourseOnGoingPageState extends State<CourseOnGoingPage> {
       isScrollControlled: true,
       isDismissible: true,
       builder: (BuildContext context) {
-        return Container(
+        return SizedBox(
           height: 650,
-          child: SingleChildScrollView(
-            physics: ClampingScrollPhysics(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      topRight: Radius.circular(15),
-                    ),
-                    color: RepoColor().color1,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(15),
+                    topRight: Radius.circular(15),
                   ),
-                  child: UrbanistText().whiteBold('Request Counseling', 20),
+                  color: RepoColor().color1,
                 ),
-                spaceHeight(5),
-                Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TextFormField(
-                        key: const Key('nameCourse'),
-                        style: UrbanistText().styleText(16),
-                        controller: _namaCourse,
-                        readOnly: true,
-                        decoration: InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: RepoColor().color1, width: 1.0),
+                child: UrbanistText().whiteBold('Request Counseling', 20),
+              ),
+              spaceHeight(5),
+              Padding(
+                padding: const EdgeInsets.all(15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextFormField(
+                      key: const Key('nameCourse'),
+                      style: UrbanistText().styleText(16),
+                      controller: _namaCourse,
+                      readOnly: true,
+                      decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: RepoColor().color1, width: 1.0),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        hintStyle: UrbanistText().styleText(14),
+                        hintText: "Course name...",
+                        focusColor: RepoColor().color4,
+                        filled: true,
+                        isDense: true,
+                        border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide.none),
+                      ),
+                    ),
+                    spaceHeight(8),
+                    TextFormField(
+                      key: const Key('nameUser'),
+                      style: UrbanistText().styleText(16),
+                      controller: _namauser,
+                      readOnly: true,
+                      decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: RepoColor().color1, width: 1.0),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        hintStyle: UrbanistText().styleText(14),
+                        hintText: "Your name...",
+                        focusColor: RepoColor().color4,
+                        filled: true,
+                        isDense: true,
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide.none),
+                      ),
+                    ),
+                    spaceHeight(8),
+                    widgetDate(context),
+                    spaceHeight(8),
+                    TextFormField(
+                      key: const Key('phoneUser'),
+                      style: UrbanistText().styleText(16),
+                      controller: _nohpuser,
+                      decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: RepoColor().color1, width: 1.0),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        hintStyle: UrbanistText().styleText(14),
+                        hintText: "Your phone number...",
+                        focusColor: RepoColor().color4,
+                        filled: true,
+                        isDense: true,
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide.none),
+                      ),
+                    ),
+                    spaceHeight(8),
+                    TextFormField(
+                      controller: _description,
+                      decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: RepoColor().color1, width: 1.0),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        hintStyle: UrbanistText().styleText(14),
+                        hintText: "Add description...",
+                        focusColor: RepoColor().color4,
+                        filled: true,
+                        isDense: true,
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide.none),
+                      ),
+                      style: UrbanistText().styleText(16),
+                      minLines:
+                          5, // any number you need (It works as the rows for the textarea)
+                      keyboardType: TextInputType.multiline,
+                      maxLines: 5,
+                    ),
+                    spaceHeight(20),
+                    Center(
+                      child: ElevatedButton(
+                        child: const Text('Request now'),
+                        onPressed: () {
+                          launchWhatsApp();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          elevation: 0,
+                          primary: RepoColor().color1,
+                          minimumSize: const Size.fromHeight(56),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25.0),
                           ),
-                          hintStyle: UrbanistText().styleText(14),
-                          hintText: "Course name...",
-                          focusColor: RepoColor().color4,
-                          filled: true,
-                          isDense: true,
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide.none),
                         ),
                       ),
-                      spaceHeight(8),
-                      TextFormField(
-                        key: const Key('nameUser'),
-                        style: UrbanistText().styleText(16),
-                        controller: _namauser,
-                        readOnly: true,
-                        decoration: InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: RepoColor().color1, width: 1.0),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          hintStyle: UrbanistText().styleText(14),
-                          hintText: "Your name...",
-                          focusColor: RepoColor().color4,
-                          filled: true,
-                          isDense: true,
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide.none),
-                        ),
-                      ),
-                      spaceHeight(8),
-                      widgetDate(context),
-                      spaceHeight(8),
-                      TextFormField(
-                        key: const Key('phoneUser'),
-                        style: UrbanistText().styleText(16),
-                        controller: _nohpuser,
-                        decoration: InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: RepoColor().color1, width: 1.0),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          hintStyle: UrbanistText().styleText(14),
-                          hintText: "Your phone number...",
-                          focusColor: RepoColor().color4,
-                          filled: true,
-                          isDense: true,
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide.none),
-                        ),
-                      ),
-                      spaceHeight(8),
-                      TextFormField(
-                        controller: _description,
-                        decoration: InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: RepoColor().color1, width: 1.0),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          hintStyle: UrbanistText().styleText(14),
-                          hintText: "Add description...",
-                          focusColor: RepoColor().color4,
-                          filled: true,
-                          isDense: true,
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide.none),
-                        ),
-                        style: UrbanistText().styleText(16),
-                        minLines:
-                            5, // any number you need (It works as the rows for the textarea)
-                        keyboardType: TextInputType.multiline,
-                        maxLines: 5,
-                      ),
-                      spaceHeight(20),
-                      Center(
-                        child: ElevatedButton(
-                          child: const Text('Request now'),
-                          onPressed: () {
-                            launchWhatsApp();
-                          },
-                          style: ElevatedButton.styleFrom(
-                            elevation: 0,
-                            primary: RepoColor().color1,
-                            minimumSize: const Size.fromHeight(56),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25.0),
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                )
-              ],
-            ),
+                    )
+                  ],
+                ),
+              )
+            ],
           ),
         );
       },

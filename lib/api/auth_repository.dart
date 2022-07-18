@@ -35,7 +35,7 @@ class AuthRepository {
     return responseRegister;
   }
 
-  Future<Responselogin?> userLogin(String email, String password) async {
+  Future userLogin(String email, String password) async {
     print('email : $email');
     print('password : $password');
     var params = {"email": email, "password": password};
@@ -57,7 +57,7 @@ class AuthRepository {
     } on DioError catch (e) {
       print('error : ${e.response!.statusCode}');
     }
-    return responselogin;
+    return false;
   }
 
   // final pref = await SharedPreferences.getInstance();

@@ -13,12 +13,12 @@ class ProfileController extends ChangeNotifier {
 
   getAllDataUser() async {
     final userdata = await _userRepository.getDataUser();
-    datauser = await userdata;
+    datauser = userdata;
     notifyListeners();
   }
 
   updateProfileandImage(BuildContext context, String phone, final String? birth,
-      String gender, String address, File file) async {
+      String gender, String address, File? file) async {
     final profileUpdate =
         await _userRepository.updateDataUser(phone, birth!, gender, address);
     final imageUpdate = await _userRepository.updateImageUser(file);
