@@ -510,3 +510,119 @@ final ScrollController _scrollController = ScrollController();
     //     ),
     //   );
     // }
+
+
+## Item di ListView File
+
+
+//Ini item section Ketika Item On Going Di Klik
+// class ItemLessonCourseOnGoing extends StatelessWidget {
+//   final data;
+//   int? idx;
+//   var setIcon;
+//   ItemLessonCourseOnGoing({Key? key, this.data, this.idx, this.setIcon})
+//       : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     int no = 1;
+//     for (var i = 1; i <= idx!; i++) {
+//       no++;
+//     }
+//     var trailIcon = RepoIcon().primaryPlay;
+//     return InkWell(
+//       onTap: () {
+//         // Navigator.push(
+//         //   context,
+//         //   TransisiHalaman(
+//         //     tipe: PageTransitionType.rightToLeftWithFade,
+//         //     page: LessonPage(
+//         //       section: section,
+//         //       lesson: data[idx][1],
+//         //       no: data[idx][0],
+//         //     ),
+//         //   ),
+//         // );
+//       },
+//       child: Card(
+//         shape: RoundedRectangleBorder(
+//           borderRadius: BorderRadius.circular(30),
+//           side: BorderSide(color: RepoColor().color1),
+//         ),
+//         elevation: 0,
+//         child: Center(
+//           child: ListTile(
+//             leading: CircleAvatar(
+//               radius: 16,
+//               backgroundColor: RepoColor().color4,
+//               child: UrbanistText().primaryNormal('0${no}', 16),
+//             ),
+//             title: UrbanistText().blackNormal('${data.title}', 16),
+//             trailing: trailIcon,
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+
+
+## Item Grid di ListView
+
+
+// class ItemGridAllCourse extends StatelessWidget {
+//   final m_course.Data data;
+//   ItemGridAllCourse({Key? key, required this.data}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return InkWell(
+//       onTap: () {
+//         // Navigator.push(context,
+//         // MaterialPageRoute(builder: (context) => DetailCoursePage()));
+//       },
+//       child: Card(
+//         shape: RoundedRectangleBorder(
+//           borderRadius: BorderRadius.circular(20),
+//         ),
+//         elevation: 2,
+//         child: Padding(
+//           padding: const EdgeInsets.all(16.0),
+//           child: Column(
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: [
+//               Container(
+//                 height: 121,
+//                 width: 150,
+//                 decoration: BoxDecoration(
+//                   borderRadius: BorderRadius.circular(15),
+//                   image: DecorationImage(
+//                     image: NetworkImage(data.urlImage.toString()),
+//                     fit: BoxFit.cover,
+//                   ),
+//                 ),
+//               ),
+//               spaceHeight(15),
+//               UrbanistText().blackBold('${data.title}', 18),
+//               spaceHeight(8),
+//               Row(
+//                 children: [
+//                   Icon(Icons.star, color: Colors.amber[400]),
+//                   UrbanistText().blackNormal('${data.rating} rating', 14)
+//                 ],
+//               ),
+//               spaceHeight(5),
+//               Row(
+//                 children: [
+//                   // Icon(Icons.person, color: Colors.blue),
+//                   UrbanistText().blackNormal('${data.description}', 14)
+//                 ],
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }

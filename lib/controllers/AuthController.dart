@@ -21,7 +21,7 @@ class AuthController extends ChangeNotifier {
     if (name.isEmpty) {
       return 'Username cannot be empty!';
     }
-    if (name.length >= 3 || name.length <= 30) {
+    if (name.length >= 3 && name.length <= 30) {
       _nama = name;
       return null;
     } else if (name.length < 3) {
@@ -48,7 +48,7 @@ class AuthController extends ChangeNotifier {
     if (password.isEmpty) {
       return 'Password cannot be empty!';
     }
-    if (password.length >= 8 || password.length <= 16) {
+    if (password.length >= 8 && password.length <= 16) {
       _password = password;
       return null;
     } else if (password.length < 8) {
@@ -66,66 +66,104 @@ class AuthController extends ChangeNotifier {
     await pref.setString("token", token);
     await pref.setString("fullName", name);
 
-    Navigator.pushAndRemoveUntil(
-      context,
-      TransisiHalaman(
-          tipe: PageTransitionType.size,
-          align: Alignment.center,
-          page: NavigationPage()),
-      (route) => false,
-    );
+    print("data session : ${pref.getString("fullName")}");
+    print("data session : ${pref.getString("token")}");
   }
 
-  isvalid(BuildContext context) {
-    print(_email);
-    _authRepository.userRegister(_nama, _email, _password);
-
-    AlertSucces(context, "Account registered successfully!")
-        .then((value) => Navigator.pop(context));
+  isvalid(BuildContext context) async {
+    final register =
+        await _authRepository.userRegister(_nama, _email, _password);
+    print('register : $register');
+    if (register == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Email is already registered!')),
+      );
+    } else {
+      if (register.status?.code == "BAD_CREDENTIALS") {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Email is already registered!')),
+        );
+      } else {
+        AlertSucces(context, "Account registered successfully!")
+            .then((value) => Navigator.pop(context));
+      }
+    }
   }
 
   cekLogin(BuildContext context, String email, String password) async {
     final login = await _authRepository.userLogin(email, password);
-    var token = login?.data?.token;
-    var fullName = login?.data?.fullName;
+    print('login = $login');
 
-    print(fullName);
-
-    if (email == '' || password == '') {
+    if (login == false) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Email or Password cannot be empty!')),
-      );
-    } else if (!EmailValidator.validate(email)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Invalid email!')),
-      );
-    } else if (login?.status?.code == "BAD_CREDENTIALS") {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Email or password is incorrect')),
-      );
-    } else if (login?.status?.code == "SUCCESS" &&
-        token != null &&
-        fullName != null) {
-      saveSession(
-        context,
-        email,
-        token,
-        fullName,
-      );
-      print(token);
-      Navigator.pushAndRemoveUntil(
-        context,
-        TransisiHalaman(
-          tipe: PageTransitionType.size,
-          align: Alignment.center,
-          page: const NavigationPage(),
-        ),
-        (route) => false,
+        const SnackBar(content: Text('Email or password is incorrect!')),
       );
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Account not found!')),
-      );
+      var token = login?.data?.token;
+      var fullName = login?.data?.fullName;
+      if (login.status?.code == "BAD_CREDENTIALS") {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Email or password is incorrect!')),
+        );
+      } else if (login.data?.role?[0] != "ROLE_USER") {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Your account cannot access this app!')),
+        );
+      } else {
+        saveSession(
+          context,
+          email,
+          token!,
+          fullName!,
+        );
+        Navigator.pushAndRemoveUntil(
+          context,
+          TransisiHalaman(
+            tipe: PageTransitionType.size,
+            align: Alignment.center,
+            page: const NavigationPage(),
+          ),
+          (route) => false,
+        );
+      }
     }
   }
 }
+
+
+// if (email == '' || password == '') {
+//       ScaffoldMessenger.of(context).showSnackBar(
+//         const SnackBar(content: Text('Email or Password cannot be empty!')),
+//       );
+//     } else if (!EmailValidator.validate(email)) {
+//       ScaffoldMessenger.of(context).showSnackBar(
+//         const SnackBar(content: Text('Invalid email!')),
+//       );
+//     } else if (login?.status?.code == "BAD_CREDENTIALS") {
+//       ScaffoldMessenger.of(context).showSnackBar(
+//         SnackBar(content: Text('Email or password is incorrect')),
+//       );
+//     } else if (login?.status?.code == "SUCCESS" &&
+//         token != null &&
+//         fullName != null) {
+//       saveSession(
+//         context,
+//         email,
+//         token,
+//         fullName,
+//       );
+//       print(token);
+//       Navigator.pushAndRemoveUntil(
+//         context,
+//         TransisiHalaman(
+//           tipe: PageTransitionType.size,
+//           align: Alignment.center,
+//           page: const NavigationPage(),
+//         ),
+//         (route) => false,
+//       );
+//     } else {
+//       ScaffoldMessenger.of(context).showSnackBar(
+//         const SnackBar(content: Text('Account not found!')),
+//       );
+//     }

@@ -88,7 +88,10 @@ class CourseCompletedPage extends StatelessWidget {
   }
 }
 
-Widget _tabSection(BuildContext context, List lesson) {
+Widget _tabSection(
+  BuildContext context,
+  List lesson,
+) {
   return DefaultTabController(
     length: 2,
     child: Column(
@@ -133,7 +136,7 @@ Widget _tabSection(BuildContext context, List lesson) {
               ItemLessonsCompletedTabBar(
                 lesson: lesson,
               ),
-              const ItemReviewTabBar(),
+              // const ItemReviewTabBar(),
             ],
           ),
         ),

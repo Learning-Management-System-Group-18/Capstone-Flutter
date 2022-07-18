@@ -1,11 +1,13 @@
 import 'dart:io';
-
+import 'package:capstone_flutter/controllers/ProfileController.dart';
 import 'package:capstone_flutter/widgets/space.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 // import 'package:image_picker/image_picker.dart';
 import 'package:open_file/open_file.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants/colors.dart';
@@ -22,8 +24,42 @@ class EditProfilePage extends StatefulWidget {
 class _EditProfilePageState extends State<EditProfilePage> {
   File? file;
 
+  var nameController = TextEditingController();
+  var emailController = TextEditingController();
+  var phoneController = TextEditingController();
+  var dateController = TextEditingController();
+  var genderController = TextEditingController();
+  var addressController = TextEditingController();
+
+  DateTime _dueDate = DateTime.now();
+  final currentDate = DateTime.now();
+  final _keyEdit = GlobalKey<FormState>();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (WidgetsBinding.instance != null) {
+      WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+        Provider.of<ProfileController>(context, listen: false).getAllDataUser();
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final profileController = Provider.of<ProfileController>(context);
+    final data = profileController.dataProfileUser;
+    nameController = TextEditingController(text: data?.user?.fullName ?? '');
+    emailController = TextEditingController(text: data?.user?.email ?? '');
+    phoneController = TextEditingController(text: data?.phoneNumber ?? '');
+    genderController = TextEditingController(text: data?.gender ?? '');
+    addressController = TextEditingController(text: data?.address ?? '');
+
+    var image_user = data?.urlImage;
+    var items = [
+      'MALE',
+      'FEMALE',
+    ];
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -41,61 +77,160 @@ class _EditProfilePageState extends State<EditProfilePage> {
           decoration: const BoxDecoration(color: Colors.white),
           padding: const EdgeInsets.all(20),
           child: Form(
+            key: _keyEdit,
             child: Column(
               children: [
-                imageprofile(context),
+                imageprofile(context, image_user),
                 spaceHeight(20),
                 TextFormField(
                   key: const Key('nama'),
                   style: UrbanistText().styleText(16),
-                  // controller: emailController,
-                  decoration: input_decoration('nama'),
+                  readOnly: true,
+                  controller: nameController,
+                  decoration: input_decoration('Full Name'),
                 ),
                 spaceHeight(20),
                 TextFormField(
                   key: const Key('email'),
                   style: UrbanistText().styleText(16),
-                  // controller: emailController,
-                  decoration: input_decoration('email'),
+                  readOnly: true,
+                  controller: emailController,
+                  decoration: input_decoration('Email'),
                 ),
                 spaceHeight(20),
                 TextFormField(
                   key: const Key('nohp'),
                   style: UrbanistText().styleText(16),
-                  // controller: emailController,
-                  decoration: input_decoration('nohp'),
+                  controller: phoneController,
+                  decoration: input_decoration('Phone number'),
                 ),
+                spaceHeight(20),
+                Row(
+                  children: [
+                    UrbanistText().blackBold('Date of Birth : ', 14),
+                    spaceWidth(3),
+                    UrbanistText().blackNormal(
+                        '${data?.dateOfBirth ?? 'Please input your birth'}',
+                        14),
+                  ],
+                ),
+                spaceHeight(10),
+                widgetDate(context, '${data?.dateOfBirth}'),
                 spaceHeight(20),
                 TextFormField(
                   key: const Key('jenis kelamin'),
                   style: UrbanistText().styleText(16),
-                  // controller: emailController,
-                  decoration: input_decoration('jenis kelamin'),
+                  controller: genderController,
+                  readOnly: true,
+                  decoration: InputDecoration(
+                    suffixIcon: PopupMenuButton<String>(
+                      icon: const Icon(Icons.arrow_drop_down),
+                      onSelected: (String value) {
+                        genderController.text = value;
+                      },
+                      itemBuilder: (BuildContext context) {
+                        return items.map<PopupMenuItem<String>>((String value) {
+                          return PopupMenuItem(
+                              child: Text(value), value: value);
+                        }).toList();
+                      },
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: RepoColor().color1, width: 1.0),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    hintStyle: UrbanistText().styleText(14),
+                    hintText: 'Gender',
+                    focusColor: RepoColor().color4,
+                    filled: true,
+                    isDense: true,
+                    fillColor: RepoColor().colorFill,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide.none),
+                  ),
                 ),
                 spaceHeight(20),
                 TextFormField(
-                  key: const Key('employee'),
+                  controller: addressController,
+                  decoration: InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: RepoColor().color1, width: 1.0),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    hintStyle: UrbanistText().styleText(14),
+                    hintText: "Address",
+                    focusColor: RepoColor().color4,
+                    filled: true,
+                    fillColor: RepoColor().colorFill,
+                    isDense: true,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide.none),
+                  ),
                   style: UrbanistText().styleText(16),
-                  // controller: emailController,
-                  decoration: input_decoration('employee'),
+                  minLines:
+                      5, // any number you need (It works as the rows for the textarea)
+                  keyboardType: TextInputType.multiline,
+                  maxLines: 5,
                 ),
                 spaceHeight(50),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                    setState(() {});
-                  },
-                  child: UrbanistText().whiteBold("Update", 16),
-                  style: ElevatedButton.styleFrom(
-                    elevation: 0,
-                    primary: RepoColor().color1,
-                    minimumSize: const Size.fromHeight(56),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25.0),
-                    ),
-                  ),
-                ),
               ],
+            ),
+          ),
+        ),
+      ),
+      bottomNavigationBar: Container(
+        height: 100,
+        padding: const EdgeInsets.all(20),
+        color: Colors.white,
+        child: ElevatedButton(
+          onPressed: () {
+            final birth = data?.dateOfBirth;
+            final image = data?.urlImage;
+            if (dateController.text != '' && file != null) {
+              profileController.updateProfileandImage(
+                  context,
+                  phoneController.text,
+                  dateController.text,
+                  genderController.text,
+                  addressController.text,
+                  file as File);
+            } else if (dateController.text == '' || file != null) {
+              profileController.updateProfileandImage(
+                  context,
+                  phoneController.text,
+                  birth,
+                  genderController.text,
+                  addressController.text,
+                  file);
+            } else if (dateController.text != '' || file == null) {
+              profileController.updateProfileWithImage(
+                  context,
+                  phoneController.text,
+                  dateController.text,
+                  genderController.text,
+                  addressController.text,
+                  image);
+            } else if (dateController.text == '' && file == null) {
+              profileController.updateProfileWithImage(
+                  context,
+                  phoneController.text,
+                  birth,
+                  genderController.text,
+                  addressController.text,
+                  image);
+            }
+          },
+          child: UrbanistText().whiteBold("Edit Profile", 16),
+          style: ElevatedButton.styleFrom(
+            elevation: 10,
+            primary: RepoColor().color1,
+            minimumSize: const Size.fromHeight(56),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25.0),
             ),
           ),
         ),
@@ -139,24 +274,79 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   InputDecoration input_decoration(String hint) {
     return InputDecoration(
-      hintStyle: GoogleFonts.urbanist(fontSize: 16),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: RepoColor().color1, width: 1.0),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      hintStyle: UrbanistText().styleText(14),
       hintText: hint,
-      fillColor: RepoColor().color3,
+      focusColor: RepoColor().color4,
       filled: true,
+      fillColor: RepoColor().colorFill,
       isDense: true,
       border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10), borderSide: BorderSide.none),
     );
   }
 
-  Widget imageprofile(BuildContext context) {
+  Widget widgetDate(BuildContext context, String birth) {
+    String selectdate;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TextFormField(
+          controller: dateController,
+          style: UrbanistText().styleText(16),
+          focusNode: AlwaysDisabledFocusNode(),
+          decoration: InputDecoration(
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: RepoColor().color1, width: 1.0),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            hintStyle: UrbanistText().styleText(14),
+            hintText: "dd-mm-yyyy",
+            focusColor: RepoColor().color4,
+            filled: true,
+            fillColor: RepoColor().colorFill,
+            isDense: true,
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide.none),
+          ),
+          onTap: () async {
+            final selectDate = await showDatePicker(
+              context: context,
+              initialDate: currentDate,
+              firstDate: DateTime(1990),
+              lastDate: DateTime(currentDate.year + 5),
+            );
+            setState(() {
+              if (selectDate != null) {
+                _dueDate = selectDate;
+                dateController
+                  ..text = DateFormat('dd-MM-yyyy').format(_dueDate)
+                  ..selection = TextSelection.fromPosition(
+                    TextPosition(
+                        offset: dateController.text.length,
+                        affinity: TextAffinity.upstream),
+                  );
+              }
+            });
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget imageprofile(BuildContext context, String? urlImage) {
     return Stack(
       children: [
-        if (file == null) ...[
+        if (urlImage == null) ...[
           const CircleAvatar(
               radius: 70.0,
               backgroundImage: AssetImage('assets/images/profile.png')),
-        ] else ...[
+        ],
+        if (file != null) ...[
           CircleAvatar(
               radius: 70.0,
               backgroundImage: Image.file(
@@ -165,23 +355,29 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 width: double.infinity,
                 fit: BoxFit.cover,
               ).image),
+        ] else ...[
+          CircleAvatar(
+              radius: 70.0,
+              backgroundImage: Image.network(
+                urlImage!,
+                height: 200,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ).image),
         ],
         Positioned(
-          bottom: 15.0,
-          right: 15.0,
+          bottom: 3.0,
+          right: 3.0,
           child: InkWell(
             onTap: () {
-              // showModalBottomSheet(
-              //     context: context,
-              //     builder: ((builder) => bottomSheet(context)));
               _pickFile();
             },
             child: CircleAvatar(
               backgroundColor: Colors.white,
-              child: Icon(
-                Icons.camera_alt_outlined,
-                color: RepoColor().color1,
-                size: 28.0,
+              child: CircleAvatar(
+                backgroundColor: RepoColor().color1,
+                radius: 15,
+                child: RepoIcon().camera,
               ),
             ),
           ),
@@ -210,7 +406,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
     print(file);
   }
 
-  void _openFile(PlatformFile file) {
-    OpenFile.open(file.path);
-  }
+  // void _openFile(PlatformFile file) {
+  //   OpenFile.open(file.path);
+  // }
+}
+
+class AlwaysDisabledFocusNode extends FocusNode {
+  @override
+  bool get hasFocus => false;
 }

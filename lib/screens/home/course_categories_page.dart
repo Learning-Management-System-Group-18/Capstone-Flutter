@@ -21,22 +21,6 @@ class CourseCategoriesPage extends StatefulWidget {
 }
 
 class _CourseCategoriesPageState extends State<CourseCategoriesPage> {
-  final List kategori = [
-    "Category 1sdsdsd",
-    "Category 2",
-    "Category 3",
-    "Category 4",
-    "Category 5",
-    "Category 6",
-    "Category 3",
-    "Category 4",
-    "Category 5",
-    "Category 6",
-    "Category 3",
-    "Category 4",
-    "Category 5",
-    "Category 6",
-  ];
   TextEditingController _searchQueryController = TextEditingController();
   bool _searchBoolean = false;
   List<int> _searchIndexList = [];
@@ -121,36 +105,6 @@ class _CourseCategoriesPageState extends State<CourseCategoriesPage> {
               },
             );
           } else {
-            // return Center(
-            //   child: Padding(
-            //     padding: const EdgeInsets.all(8.0),
-            //     child: Column(
-            //       children: [
-            //         Container(
-            //           height: 200.0,
-            //           width: 200.0,
-            //           decoration: const BoxDecoration(
-            //             image: DecorationImage(
-            //               image: Svg('assets/images/search.svg'),
-            //             ),
-            //           ),
-            //         ),
-            //         spaceHeight(15),
-            //         UrbanistText().blackBold('Not Found', 24),
-            //         spaceHeight(8),
-            //         const Text(
-            //           'Sorry, the course in this category cannot be found. Please search another category.',
-            //           textAlign: TextAlign.center,
-            //           style: TextStyle(
-            //             fontFamily: ('Urbanist'),
-            //             fontSize: 20,
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // );
-
             return Center(
               child: Column(
                 children: [

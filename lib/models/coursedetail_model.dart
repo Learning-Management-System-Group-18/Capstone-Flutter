@@ -51,6 +51,7 @@ class Data {
   String? description;
   String? level;
   String? urlImage;
+  int? countUser;
   Category? category;
 
   Data(
@@ -60,6 +61,7 @@ class Data {
       this.description,
       this.level,
       this.urlImage,
+      this.countUser,
       this.category});
 
   Data.fromJson(Map<String, dynamic> json) {
@@ -69,6 +71,7 @@ class Data {
     description = json['description'];
     level = json['level'];
     urlImage = json['url_image'];
+    countUser = json['count_user'];
     category = json['category'] != null
         ? new Category.fromJson(json['category'])
         : null;
@@ -82,6 +85,7 @@ class Data {
     data['description'] = this.description;
     data['level'] = this.level;
     data['url_image'] = this.urlImage;
+    data['count_user'] = this.countUser;
     if (this.category != null) {
       data['category'] = this.category!.toJson();
     }

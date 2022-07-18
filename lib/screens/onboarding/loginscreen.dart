@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants/icon.dart';
 import '../../controllers/AuthController.dart';
@@ -22,6 +23,14 @@ class _LoginscreenState extends State<Loginscreen> {
 
   late TextEditingController emailController;
   late TextEditingController passwordController;
+  String? token;
+  getDataPref() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      token = prefs.getString('token');
+    });
+  }
 
   @override
   void initState() {
@@ -33,9 +42,22 @@ class _LoginscreenState extends State<Loginscreen> {
 
   final _formKey = GlobalKey<FormState>();
 
+  bool isselect = false;
+
   @override
   Widget build(BuildContext context) {
     final authController = Provider.of<AuthController>(context);
+    if (emailController.text.length != 0 ||
+        passwordController.text.length != 0) {
+      setState(() {
+        isselect = true;
+      });
+    } else {
+      setState(() {
+        isselect = false;
+      });
+    }
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -73,7 +95,11 @@ class _LoginscreenState extends State<Loginscreen> {
                   TextFormField(
                     key: const Key('email'),
                     style: UrbanistText().styleText(16),
-                    controller: emailController,
+                    onChanged: (val) {
+                      setState(() {
+                        emailController.text = val;
+                      });
+                    },
                     decoration: InputDecoration(
                       focusedBorder: OutlineInputBorder(
                         borderSide:
@@ -90,6 +116,7 @@ class _LoginscreenState extends State<Loginscreen> {
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide.none),
                     ),
+                    validator: (email) => authController.isEmailValid(email!),
                   ),
                   const SizedBox(
                     height: 24,
@@ -100,7 +127,11 @@ class _LoginscreenState extends State<Loginscreen> {
                     obscureText: !passwordVisible!,
                     enableSuggestions: false,
                     autocorrect: false,
-                    controller: passwordController,
+                    onChanged: (val) {
+                      setState(() {
+                        passwordController.text = val;
+                      });
+                    },
                     decoration: InputDecoration(
                       focusedBorder: OutlineInputBorder(
                         borderSide:
@@ -129,21 +160,23 @@ class _LoginscreenState extends State<Loginscreen> {
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide.none),
                     ),
+                    validator: (password) =>
+                        authController.isPasswordValid(password!),
                   ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        'Forgot the password?',
-                        textAlign: TextAlign.right,
-                        style: GoogleFonts.urbanist(
-                          fontSize: 14,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ),
+                  // Align(
+                  //   alignment: Alignment.centerRight,
+                  //   child: TextButton(
+                  //     onPressed: () {},
+                  //     child: Text(
+                  //       'Forgot the password?',
+                  //       textAlign: TextAlign.right,
+                  //       style: GoogleFonts.urbanist(
+                  //         fontSize: 14,
+                  //         color: Colors.black,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   const SizedBox(
                     height: 40,
                   ),
@@ -154,13 +187,17 @@ class _LoginscreenState extends State<Loginscreen> {
                             passwordController.text);
                       }
                     },
-                    child: UrbanistText().whiteBold("Sign In", 16),
+                    child: isselect == false
+                        ? UrbanistText().primaryBold('Sign In', 16)
+                        : UrbanistText().whiteBold("Sign In", 16),
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
-                      primary: RepoColor().color1,
+                      primary:
+                          isselect == false ? Colors.white : RepoColor().color1,
                       minimumSize: const Size.fromHeight(56),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25.0),
+                        side: BorderSide(color: RepoColor().color1, width: 1),
                       ),
                     ),
                   ),

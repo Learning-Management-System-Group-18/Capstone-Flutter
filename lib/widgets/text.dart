@@ -71,6 +71,19 @@ class UrbanistText {
     );
   }
 
+  Text warningBold(
+    String text,
+    double size,
+  ) {
+    return Text(
+      text,
+      style: GoogleFonts.urbanist(
+          fontSize: size,
+          fontWeight: FontWeight.bold,
+          color: RepoColor().colorWarning),
+    );
+  }
+
   TextStyle styleText(double size) {
     return GoogleFonts.urbanist(fontSize: size);
   }

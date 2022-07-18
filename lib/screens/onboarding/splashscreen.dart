@@ -1,64 +1,63 @@
+import 'dart:async';
+
 import 'package:capstone_flutter/constants/colors.dart';
+import 'package:capstone_flutter/screens/onboarding/boardingscreen.dart';
+import 'package:capstone_flutter/widgets/navigator.dart';
+import 'package:capstone_flutter/widgets/transition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'loginscreen.dart';
-
-class Splashscreen extends StatelessWidget {
+class Splashscreen extends StatefulWidget {
   const Splashscreen({Key? key}) : super(key: key);
+
+  @override
+  _SplashscreenState createState() => _SplashscreenState();
+}
+
+class _SplashscreenState extends State<Splashscreen> {
+  bool? islogin;
+  String? token;
+
+  cek() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    islogin = prefs.getBool("is_login");
+    token = prefs.getString("token");
+    print('tokenlogin : $token');
+    print('islogin : $islogin');
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    cek();
+    super.initState();
+    Timer(const Duration(seconds: 5), () {
+      if (islogin == false || token!.isEmpty) {
+        Navigator.pushReplacement(
+            context,
+            TransisiHalaman(
+                tipe: PageTransitionType.rightToLeft,
+                page: const Boardingscreen()));
+      } else {
+        Navigator.pushReplacement(
+            context,
+            TransisiHalaman(
+                tipe: PageTransitionType.rightToLeft,
+                page: const NavigationPage()));
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(25),
-            child: Column(
-              children: [
-                Container(
-                  height: 350.0,
-                  width: 350.0,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: Svg('assets/images/splashscreen.svg'),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  'Let’s improve your skills together with Level Up right now',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.urbanist(
-                      fontSize: 28, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(
-                  height: 60,
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Loginscreen()));
-                  },
-                  child: const Text('Get Started'),
-                  style: ElevatedButton.styleFrom(
-                    elevation: 0,
-                    primary: RepoColor().color1,
-                    minimumSize: const Size.fromHeight(60),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25.0),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+      backgroundColor: RepoColor().color1,
+      body: const Center(
+        child: Image(
+          image: Svg('assets/icon/logo.svg', size: Size(250, 250)),
         ),
       ),
     );
