@@ -23,30 +23,35 @@ class _SplashscreenState extends State<Splashscreen> {
   cek() async {
     WidgetsFlutterBinding.ensureInitialized();
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    islogin = prefs.getBool("is_login");
-    token = prefs.getString("token");
-    print('tokenlogin : $token');
-    print('islogin : $islogin');
+    setState(() {
+      islogin = prefs.getBool("is_login");
+      token = prefs.getString("token");
+      print('islogin : $islogin');
+      print('token : $token');
+    });
   }
 
   @override
   void initState() {
-    // TODO: implement initState
-    cek();
     super.initState();
-    Timer(const Duration(seconds: 5), () {
-      if (islogin == false || token!.isEmpty) {
-        Navigator.pushReplacement(
-            context,
-            TransisiHalaman(
-                tipe: PageTransitionType.rightToLeft,
-                page: const Boardingscreen()));
+    cek();
+    Future.delayed(const Duration(seconds: 5), () {
+      if (islogin == false || token == null || islogin == null) {
+        return Navigator.pushReplacement(
+          context,
+          TransisiHalaman(
+            tipe: PageTransitionType.rightToLeft,
+            page: const Boardingscreen(),
+          ),
+        );
       } else {
-        Navigator.pushReplacement(
-            context,
-            TransisiHalaman(
-                tipe: PageTransitionType.rightToLeft,
-                page: const NavigationPage()));
+        return Navigator.pushReplacement(
+          context,
+          TransisiHalaman(
+            tipe: PageTransitionType.rightToLeft,
+            page: const NavigationPage(),
+          ),
+        );
       }
     });
   }
